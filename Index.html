@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>공부 타이머 통합 앱</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>📚 오늘의 집중 도우미</h1>
+    <div class="tab-buttons">
+      <button onclick="openTab('goal')">🎯 목표 타이머</button>
+      <button onclick="openTab('pomodoro')">⏰ 포모도로</button>
+      <button onclick="openTab('basic')">⏱️ 일반 타이머</button>
+      <button onclick="openTab('dday')">📅 D-Day</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- 🎯 목표 타이머 -->
+    <section id="goal" class="tab-content">
+      <h2>🎯 목표 시간 채우기</h2>
+      <label>오늘 목표 시간 (분): 
+        <input type="number" id="goalMinutes" value="180">
+      </label>
+      <p>✅ 현재 누적: <span id="totalDisplay">0분</span></p>
+      <p>📊 달성률: <span id="goalPercent">0%</span></p>
+
+      <div class="manual-edit">
+        <label>직접 누적 시간 수정 (분): 
+          <input type="number" id="manualTotal" placeholder="예: 120">
+          <button onclick="setManualTotal()">수정</button>
+        </label>
+      </div>
+    </section>
+
+    <!-- ⏰ 포모도로 타이머 -->
+    <section id="pomodoro" class="tab-content" style="display: none;">
+      <h2>⏰ 포모도로 타이머</h2>
+      <label>집중 시간 (분): 
+        <input type="number" id="focusMinutes" value="25">
+      </label>
+      <label>휴식 시간 (분): 
+        <input type="number" id="breakMinutes" value="5">
+      </label>
+
+      <div id="pomodoroTimer">25:00</div>
+      <button onclick="startPomodoro()">시작</button>
+      <button onclick="pausePomodoro()">일시정지</button>
+      <button onclick="resetPomodoro()">초기화</button>
+    </section>
+
+    <!-- ⏱️ 일반 타이머 -->
+    <section id="basic" class="tab-content" style="display: none;">
+      <h2>⏱️ 일반 타이머</h2>
+      <div id="basicTimer">00:00</div>
+      <button onclick="startBasic()">시작</button>
+      <button onclick="pauseBasic()">일시정지</button>
+      <button onclick="resetBasic()">초기화</button>
+      <button onclick="saveBasic()">기록 저장</button>
+    </section>
+
+    <!-- 📅 D-Day 기능 -->
+    <section id="dday" class="tab-content" style="display: none;">
+      <h2>📅 D-Day 관리</h2>
+      <input type="text" id="ddayTitle" placeholder="제목 (예: 수능)">
+      <input type="date" id="ddayDate">
+      <button onclick="addDday()">추가</button>
+      <ul id="ddayList"></ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 오늘의 집중 도우미</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
