@@ -1,0 +1,139 @@
+/* 📷 배경 이미지 공통 적용 */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+  background-image: url('grass.jpg'); /* 🔁 여기에 잔디 사진 파일명을 맞춰줘 */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  color: white;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 💚 로그인 화면용 - 기본 숨김 */
+#loginScreen, #mainApp {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0; left: 0;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 🌿 로그인 화면 카피 */
+#loginScreen h1 {
+  font-weight: 300;
+  font-size: 2rem;
+  margin-bottom: 40px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* 로그인 버튼 공통 스타일 */
+.login-btn {
+  background-color: rgba(120, 170, 120, 0.85);
+  border: none;
+  border-radius: 12px;
+  padding: 14px 24px;
+  margin: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 220px;
+  color: white;
+}
+.login-btn:hover {
+  background-color: rgba(100, 150, 100, 0.85);
+}
+
+/* 📏 메인 타이머 화면 (흐림 효과 배경) */
+#mainApp::before {
+  content: "";
+  background-image: inherit;
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  filter: blur(4px);
+  z-index: -1;
+}
+
+/* 🕓 상단 누적 시간 */
+#topSummary {
+  position: absolute;
+  top: 40px;
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+/* ⏱️ 중앙 타이머 */
+#timerDisplay {
+  font-size: 5rem;
+  font-weight: 200;
+  letter-spacing: 1px;
+  margin-bottom: 40px;
+}
+
+/* 🎮 하단 컨트롤 버튼 */
+.control-btn {
+  background-color: rgba(130, 180, 130, 0.8);
+  border: none;
+  border-radius: 10px;
+  padding: 12px 20px;
+  margin: 0 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  color: white;
+  transition: background-color 0.3s;
+}
+.control-btn:hover {
+  background-color: rgba(110, 160, 110, 0.8);
+}
+
+/* 🌸 꽃으로 진행 표시 */
+#progressIcons {
+  position: absolute;
+  bottom: 40px;
+  display: flex;
+  gap: 10px;
+}
+.flower-icon {
+  font-size: 1.5rem;
+  opacity: 0.85;
+}
+
+/* 🕶️ 집중 모드 오버레이 */
+#focusOverlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.95);
+  color: white;
+  font-size: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 9999;
+}
+
+/* 📱 반응형 */
+@media (max-width: 600px) {
+  #timerDisplay {
+    font-size: 3.5rem;
+  }
+  .control-btn {
+    padding: 10px 16px;
+    font-size: 0.9rem;
+  }
+}
