@@ -1,80 +1,75 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>공부 타이머 통합 앱</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>집중 타이머 & 목표 관리</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Firebase 스크립트는 script.js에서 import 하므로 따로 안 넣음 -->
 </head>
 <body>
   <header>
-    <h1>📚 오늘의 집중 도우미</h1>
-    <div class="tab-buttons">
-      <button onclick="openTab('goal')">🎯 목표 타이머</button>
-      <button onclick="openTab('pomodoro')">⏰ 포모도로</button>
-      <button onclick="openTab('basic')">⏱️ 일반 타이머</button>
-      <button onclick="openTab('dday')">📅 D-Day</button>
-    </div>
+    <h1>집중 타이머 & 목표 관리</h1>
   </header>
 
-  <main>
-    <!-- 🎯 목표 타이머 -->
-    <section id="goal" class="tab-content">
-      <h2>🎯 목표 시간 채우기</h2>
-      <label>오늘 목표 시간 (분): 
-        <input type="number" id="goalMinutes" value="180">
-      </label>
-      <p>✅ 현재 누적: <span id="totalDisplay">0분</span></p>
-      <p>📊 달성률: <span id="goalPercent">0%</span></p>
+  <!-- 로그인 섹션 -->
+  <section id="auth">
+    <h2>👤 로그인</h2>
+    <input type="email" id="email" placeholder="이메일" />
+    <input type="password" id="password" placeholder="비밀번호" />
+    <button onclick="signUp()">회원가입</button>
+    <button onclick="signIn()">로그인</button>
+    <button onclick="signOut()">로그아웃</button>
+    <p id="userInfo">로그인 상태: 없음</p>
+  </section>
 
-      <div class="manual-edit">
-        <label>직접 누적 시간 수정 (분): 
-          <input type="number" id="manualTotal" placeholder="예: 120">
-          <button onclick="setManualTotal()">수정</button>
-        </label>
-      </div>
-    </section>
+  <!-- 탭 메뉴 -->
+  <nav>
+    <button onclick="openTab('pomodoroTab')">포모도로 타이머</button>
+    <button onclick="openTab('goalTab')">목표 타이머</button>
+    <button onclick="openTab('basicTab')">일반 타이머</button>
+    <button onclick="openTab('ddayTab')">D-Day</button>
+  </nav>
 
-    <!-- ⏰ 포모도로 타이머 -->
-    <section id="pomodoro" class="tab-content" style="display: none;">
-      <h2>⏰ 포모도로 타이머</h2>
-      <label>집중 시간 (분): 
-        <input type="number" id="focusMinutes" value="25">
-      </label>
-      <label>휴식 시간 (분): 
-        <input type="number" id="breakMinutes" value="5">
-      </label>
+  <!-- 포모도로 타이머 -->
+  <section id="pomodoroTab" class="tab-content">
+    <h2>포모도로 타이머</h2>
+    <label>집중 시간(분): <input type="number" id="focusMinutes" value="25" min="1" /></label>
+    <div id="pomodoroTimer">25:00</div>
+    <button onclick="startPomodoro()">시작</button>
+    <button onclick="pausePomodoro()">일시정지</button>
+    <button onclick="resetPomodoro()">초기화</button>
+  </section>
 
-      <div id="pomodoroTimer">25:00</div>
-      <button onclick="startPomodoro()">시작</button>
-      <button onclick="pausePomodoro()">일시정지</button>
-      <button onclick="resetPomodoro()">초기화</button>
-    </section>
+  <!-- 목표 타이머 -->
+  <section id="goalTab" class="tab-content" style="display:none;">
+    <h2>목표 타이머</h2>
+    <label>하루 목표 시간(분): <input type="number" id="goalMinutes" value="180" min="1" /></label>
+    <p>누적 시간: <span id="totalDisplay">0분</span></p>
+    <p>달성률: <span id="goalPercent">0%</span></p>
+    <label>기록 수동 입력 (분): <input type="number" id="manualTotal" min="0" /></label>
+    <button onclick="setManualTotal()">입력</button>
+  </section>
 
-    <!-- ⏱️ 일반 타이머 -->
-    <section id="basic" class="tab-content" style="display: none;">
-      <h2>⏱️ 일반 타이머</h2>
-      <div id="basicTimer">00:00</div>
-      <button onclick="startBasic()">시작</button>
-      <button onclick="pauseBasic()">일시정지</button>
-      <button onclick="resetBasic()">초기화</button>
-      <button onclick="saveBasic()">기록 저장</button>
-    </section>
+  <!-- 일반 타이머 -->
+  <section id="basicTab" class="tab-content" style="display:none;">
+    <h2>일반 타이머</h2>
+    <div id="basicTimer">00:00</div>
+    <button onclick="startBasic()">시작</button>
+    <button onclick="pauseBasic()">일시정지</button>
+    <button onclick="resetBasic()">초기화</button>
+    <button onclick="saveBasic()">기록 저장</button>
+  </section>
 
-    <!-- 📅 D-Day 기능 -->
-    <section id="dday" class="tab-content" style="display: none;">
-      <h2>📅 D-Day 관리</h2>
-      <input type="text" id="ddayTitle" placeholder="제목 (예: 수능)">
-      <input type="date" id="ddayDate">
-      <button onclick="addDday()">추가</button>
-      <ul id="ddayList"></ul>
-    </section>
-  </main>
+  <!-- D-Day -->
+  <section id="ddayTab" class="tab-content" style="display:none;">
+    <h2>D-Day</h2>
+    <input type="text" id="ddayTitle" placeholder="이벤트 제목" />
+    <input type="date" id="ddayDate" />
+    <button onclick="addDday()">추가</button>
+    <ul id="ddayList"></ul>
+  </section>
 
-  <footer>
-    <p>© 2025 오늘의 집중 도우미</p>
-  </footer>
-
-  <script src="script.js"></script>
+  <script type="module" src="script.js"></script>
 </body>
 </html>
