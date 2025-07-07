@@ -7,24 +7,24 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  height: 100vh;
+  min-height: 100vh; /* ✅ height → min-height로 변경 */
   color: white;
-  overflow: hidden;
+  overflow-x: hidden; /* ✅ overflow: hidden 제거, x만 숨김 */
   display: flex;
-  justify-content: center;
+  flex-direction: column; /* ✅ 세로 배치 */
   align-items: center;
 }
 
 /* 💚 로그인 화면용 - 기본 숨김 */
 #loginScreen, #mainApp {
   width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0; left: 0;
-  display: none;
+  min-height: 100vh; /* ✅ height → min-height로 변경 */
+  position: relative; /* ✅ absolute 제거 */
+  display: none;      /* JS에서 flex로 표시됨 */
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  z-index: 1;         /* ✅ 겹침 방지 */
 }
 
 /* 🌿 로그인 화면 카피 */
@@ -60,19 +60,23 @@ body {
   background-size: cover;
   background-position: center;
   position: absolute;
-  top: 0; left: 0;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   filter: blur(4px);
-  z-index: -1;
+  z-index: 0; /* ✅ -1 → 0 으로 변경 */
 }
 
 /* 🕓 상단 누적 시간 */
 #topSummary {
   position: absolute;
   top: 40px;
+  left: 50%;
+  transform: translateX(-50%); /* ✅ 가운데 정렬 */
   font-size: 1rem;
   opacity: 0.9;
+  z-index: 2;
 }
 
 /* ⏱️ 중앙 타이머 */
@@ -81,6 +85,7 @@ body {
   font-weight: 200;
   letter-spacing: 1px;
   margin-bottom: 40px;
+  z-index: 2;
 }
 
 /* 🎮 하단 컨트롤 버튼 */
@@ -94,6 +99,7 @@ body {
   cursor: pointer;
   color: white;
   transition: background-color 0.3s;
+  z-index: 2;
 }
 .control-btn:hover {
   background-color: rgba(110, 160, 110, 0.8);
@@ -103,8 +109,11 @@ body {
 #progressIcons {
   position: absolute;
   bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%); /* ✅ 가운데 정렬 */
   display: flex;
   gap: 10px;
+  z-index: 2;
 }
 .flower-icon {
   font-size: 1.5rem;
@@ -114,13 +123,14 @@ body {
 /* 🕶️ 집중 모드 오버레이 */
 #focusOverlay {
   position: fixed;
-  top: 0; left: 0;
+  top: 0;
+  left: 0;
   width: 100vw;
   height: 100vh;
   background: rgba(0, 0, 0, 0.95);
   color: white;
   font-size: 2rem;
-  display: flex;
+  display: none; /* ✅ 초기 숨김 */
   justify-content: center;
   align-items: center;
   flex-direction: column;
