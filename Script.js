@@ -15,7 +15,7 @@ const firebaseConfig = {
   projectId: "bbuddistudy",
   storageBucket: "bbuddistudy.appspot.com",
   messagingSenderId: "154303839611",
-  appId: "your-app-id-here"
+  appId: "1:154303839611:web:7b7c806b002850138991de"
 };
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
