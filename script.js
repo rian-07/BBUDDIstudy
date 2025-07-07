@@ -21,7 +21,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 // 로그인 기능
-export function signUp() {
+function signUp() {
   const email = document.getElementById("email").value;
   const pw = document.getElementById("password").value;
   createUserWithEmailAndPassword(auth, email, pw)
@@ -29,7 +29,7 @@ export function signUp() {
     .catch(e => alert("오류: " + e.message));
 }
 
-export function signIn() {
+function signIn() {
   const email = document.getElementById("email").value;
   const pw = document.getElementById("password").value;
   signInWithEmailAndPassword(auth, email, pw)
@@ -37,7 +37,7 @@ export function signIn() {
     .catch(e => alert("오류: " + e.message));
 }
 
-export function signOut() {
+function signOut() {
   firebaseSignOut(auth)
     .then(() => alert("로그아웃 성공"))
     .catch(e => alert("오류: " + e.message));
