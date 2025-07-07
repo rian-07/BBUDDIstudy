@@ -69,7 +69,13 @@
     <button onclick="addDday()">추가</button>
     <ul id="ddayList"></ul>
   </section>
-
+  
+<!-- 집중 모드 오버레이 -->
+<div id="focusOverlay" style="display: none;">
+  <p>⏳ 집중 모드 작동 중...</p>
+  <button onclick="exitFocusMode()">강제 종료</button>
+</div>
+  
   <script type="module" src="script.js"></script>
 </body>
 </html>
