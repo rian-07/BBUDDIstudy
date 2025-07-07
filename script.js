@@ -43,6 +43,10 @@ function signOut() {
     .catch(e => alert("오류: " + e.message));
 }
 
+window.signUp = signUp;
+window.signIn = signIn;
+window.signOut = signOut;
+
 onAuthStateChanged(auth, user => {
   const info = document.getElementById("userInfo");
   const authSection = document.getElementById("auth");
