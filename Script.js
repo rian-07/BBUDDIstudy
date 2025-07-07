@@ -1,4 +1,4 @@
-// Firebase import 및 설정 부분 (appId는 나중에 넣어도 됨)
+// Firebase 관련 모듈 가져오기
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
   getAuth,
@@ -8,18 +8,19 @@ import {
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
+// Firebase 설정 (appId는 나중에 교체)
 const firebaseConfig = {
   apiKey: "AIzaSyAhdJZcG-4p4D2dT5K5QaPo5OLzShS2krw",
   authDomain: "bbuddistudy.firebaseapp.com",
   projectId: "bbuddistudy",
   storageBucket: "bbuddistudy.appspot.com",
   messagingSenderId: "154303839611",
-  appId: "your-app-id-here"  // 나중에 정확한 앱ID로 교체
+  appId: "your-app-id-here"
 };
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// 로그인 관련 함수
+// 로그인 기능
 export function signUp() {
   const email = document.getElementById("email").value;
   const pw = document.getElementById("password").value;
@@ -44,21 +45,17 @@ export function signOut() {
 
 onAuthStateChanged(auth, user => {
   const info = document.getElementById("userInfo");
-  if (user) {
-    info.textContent = `로그인 상태: ${user.email}`;
-  } else {
-    info.textContent = "로그인 상태: 없음";
-  }
+  info.textContent = user ? `로그인 상태: ${user.email}` : "로그인 상태: 없음";
 });
 
-// === 새벽 5시 기준 날짜 계산 함수
+// === 날짜 키 생성 (새벽 5시 기준 하루)
 function getTodayKey() {
   const now = new Date();
   if (now.getHours() < 5) now.setDate(now.getDate() - 1);
   return now.toISOString().slice(0, 10);
 }
 
-// === 목표 타이머 관련 함수
+// === 목표 타이머
 function updateGoalProgress() {
   const key = "focus_total_" + getTodayKey();
   const totalSec = parseInt(localStorage.getItem(key)) || 0;
@@ -92,10 +89,12 @@ export function startPomodoro() {
   const focusMin = parseInt(document.getElementById("focusMinutes").value) || 25;
   pomoSec = focusMin * 60;
   isPomoRunning = true;
+  enterFocusMode();
   pomoInterval = setInterval(() => {
     if (pomoSec <= 0) {
       clearInterval(pomoInterval);
       isPomoRunning = false;
+      exitFocusMode();
       alert("⏰ 집중 시간 끝! 휴식하세요!");
       addToTotal(focusMin * 60);
       return;
@@ -108,6 +107,7 @@ export function startPomodoro() {
 export function pausePomodoro() {
   clearInterval(pomoInterval);
   isPomoRunning = false;
+  exitFocusMode();
 }
 
 export function resetPomodoro() {
@@ -123,6 +123,7 @@ let basicInterval, basicSec = 0, isBasicRunning = false;
 export function startBasic() {
   if (isBasicRunning) return;
   isBasicRunning = true;
+  enterFocusMode();
   basicInterval = setInterval(() => {
     basicSec++;
     displayTime("basicTimer", basicSec);
@@ -132,6 +133,7 @@ export function startBasic() {
 export function pauseBasic() {
   clearInterval(basicInterval);
   isBasicRunning = false;
+  exitFocusMode();
 }
 
 export function resetBasic() {
@@ -146,7 +148,7 @@ export function saveBasic() {
   resetBasic();
 }
 
-// === 시간 표시 함수
+// === 시간 표시
 function displayTime(id, totalSec) {
   const min = String(Math.floor(totalSec / 60)).padStart(2, '0');
   const sec = String(totalSec % 60).padStart(2, '0');
@@ -171,10 +173,23 @@ export function addDday() {
   document.getElementById("ddayList").appendChild(li);
 }
 
-// === 탭 전환 함수
+// === 탭 전환 제어
 export function openTab(tabId) {
+  // 집중 모드 중엔 탭 이동 금지
+  if (document.getElementById("focusOverlay").style.display === "flex") return;
   document.querySelectorAll(".tab-content").forEach(el => el.style.display = "none");
   document.getElementById(tabId).style.display = "block";
+}
+
+// === 집중 모드 제어
+function enterFocusMode() {
+  document.getElementById("focusOverlay").style.display = "flex";
+  document.querySelectorAll("nav button").forEach(btn => btn.disabled = true);
+}
+
+export function exitFocusMode() {
+  document.getElementById("focusOverlay").style.display = "none";
+  document.querySelectorAll("nav button").forEach(btn => btn.disabled = false);
 }
 
 // === 초기화
