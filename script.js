@@ -45,7 +45,22 @@ export function signOut() {
 
 onAuthStateChanged(auth, user => {
   const info = document.getElementById("userInfo");
-  info.textContent = user ? `로그인 상태: ${user.email}` : "로그인 상태: 없음";
+  const authSection = document.getElementById("auth");
+  const mainApp = document.getElementById("mainApp");
+
+  if (user) {
+    info.textContent = `로그인 상태: ${user.email}`;
+    authSection.style.display = "none";
+    mainApp.style.display = "flex";
+    resetPomodoro();
+    resetBasic();
+    updateGoalProgress();
+    openTab("pomodoroTab");
+  } else {
+    info.textContent = "로그인 상태: 없음";
+    authSection.style.display = "flex";
+    mainApp.style.display = "none";
+  }
 });
 
 // === 날짜 키 생성 (새벽 5시 기준 하루)
