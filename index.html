@@ -3,78 +3,145 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>집중 타이머 & 목표 관리</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>BBUDDIstudy 로그인</title>
+  <style>
+    /* 화면 중앙 정렬 및 기본 스타일 */
+    body, html {
+      height: 100%;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .login-container {
+      background: white;
+      padding: 40px 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 320px;
+      box-sizing: border-box;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 24px;
+      color: #333;
+    }
+
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 12px 10px;
+      margin-bottom: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #4caf50;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .signup-btn {
+      background-color: #2196F3;
+    }
+
+    .signup-btn:hover {
+      background-color: #1e88e5;
+    }
+  </style>
 </head>
 <body>
+  <div class="login-container">
+    <h2>로그인</h2>
+    <input type="email" id="email" placeholder="이메일" required />
+    <input type="password" id="password" placeholder="비밀번호" required />
+    <button id="loginBtn">로그인</button>
+    <button id="signupBtn" class="signup-btn">회원가입</button>
+  </div>
 
-  <!-- 로그인 섹션 -->
-  <section id="auth">
-    <h2>👤 로그인</h2>
-    <input type="email" id="email" placeholder="이메일" />
-    <input type="password" id="password" placeholder="비밀번호" />
-    <button onclick="signUp()">회원가입</button>
-    <button onclick="signIn()">로그인</button>
-    <button onclick="signOut()">로그아웃</button>
-    <p id="userInfo">로그인 상태: 없음</p>
-  </section>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
 
-  <!-- 메인 앱 -->
-  <section id="mainApp" style="display: none;">
-    <!-- 탭 메뉴 -->
-    <nav>
-      <button onclick="openTab('pomodoroTab')">포모도로 타이머</button>
-      <button onclick="openTab('goalTab')">목표 타이머</button>
-      <button onclick="openTab('basicTab')">일반 타이머</button>
-      <button onclick="openTab('ddayTab')">D-Day</button>
-    </nav>
+  <script>
+    // Firebase 초기화
+    const firebaseConfig = {
+      apiKey: "AIzaSyAhdJZcG-4p4D2dT5K5QaPo5OLzShS2krw",
+      authDomain: "bbuddistudy.firebaseapp.com",
+      projectId: "bbuddistudy",
+      storageBucket: "bbuddistudy.appspot.com",
+      messagingSenderId: "154303839611",
+      appId: "1:154303839611:web:7b7c806b002850138991de"
+    };
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.getAuth(app);
 
-    <!-- 포모도로 타이머 -->
-    <section id="pomodoroTab" class="tab-content">
-      <h2>포모도로 타이머</h2>
-      <label>집중 시간(분): <input type="number" id="focusMinutes" value="25" min="1" /></label>
-      <div id="pomodoroTimer">25:00</div>
-      <button onclick="startPomodoro()" class="control-btn">시작</button>
-      <button onclick="pausePomodoro()" class="control-btn">일시정지</button>
-      <button onclick="resetPomodoro()" class="control-btn">초기화</button>
-    </section>
+    const loginBtn = document.getElementById('loginBtn');
+    const signupBtn = document.getElementById('signupBtn');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
 
-    <!-- 목표 타이머 -->
-    <section id="goalTab" class="tab-content" style="display:none;">
-      <h2>목표 타이머</h2>
-      <label>하루 목표 시간(분): <input type="number" id="goalMinutes" value="180" min="1" /></label>
-      <p>누적 시간: <span id="totalDisplay">0분</span></p>
-      <p>달성률: <span id="goalPercent">0%</span></p>
-      <label>기록 수동 입력 (분): <input type="number" id="manualTotal" min="0" /></label>
-      <button onclick="setManualTotal()">입력</button>
-    </section>
+    // 로그인 상태 자동 체크 후 홈 화면 이동
+    firebase.onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // 이미 로그인된 상태면 홈 화면으로 이동
+        window.location.href = 'home.html';
+      }
+    });
 
-    <!-- 일반 타이머 -->
-    <section id="basicTab" class="tab-content" style="display:none;">
-      <h2>일반 타이머</h2>
-      <div id="basicTimer">00:00</div>
-      <button onclick="startBasic()" class="control-btn">시작</button>
-      <button onclick="pauseBasic()" class="control-btn">일시정지</button>
-      <button onclick="resetBasic()" class="control-btn">초기화</button>
-      <button onclick="saveBasic()" class="control-btn">기록 저장</button>
-    </section>
+    // 로그인
+    loginBtn.addEventListener('click', () => {
+      const email = emailInput.value.trim();
+      const password = passwordInput.value.trim();
 
-    <!-- D-Day -->
-    <section id="ddayTab" class="tab-content" style="display:none;">
-      <h2>D-Day</h2>
-      <input type="text" id="ddayTitle" placeholder="이벤트 제목" />
-      <input type="date" id="ddayDate" />
-      <button onclick="addDday()">추가</button>
-      <ul id="ddayList"></ul>
-    </section>
+      if (!email || !password) {
+        alert('이메일과 비밀번호를 입력해주세요.');
+        return;
+      }
 
-    <!-- 집중 모드 오버레이 -->
-    <div id="focusOverlay">
-      <p>⏳ 집중 모드 작동 중...</p>
-      <button onclick="exitFocusMode()">강제 종료</button>
-    </div>
-  </section>
+      firebase.signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          window.location.href = 'home.html'; // 로그인 성공 후 홈 화면 이동
+        })
+        .catch((error) => {
+          alert(`로그인 실패: ${error.message}`);
+        });
+    });
 
-  <script type="module" src="script.js"></script>
+    // 회원가입
+    signupBtn.addEventListener('click', () => {
+      const email = emailInput.value.trim();
+      const password = passwordInput.value.trim();
+
+      if (!email || !password) {
+        alert('회원가입을 위해 이메일과 비밀번호를 입력해주세요.');
+        return;
+      }
+
+      firebase.createUserWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          alert('회원가입 성공! 로그인 후 이용해주세요.');
+        })
+        .catch((error) => {
+          alert(`회원가입 실패: ${error.message}`);
+        });
+    });
+  </script>
 </body>
 </html>
