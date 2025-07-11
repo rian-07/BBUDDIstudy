@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>회원가입 - BBUDDIstudy</title>
+</head>
+<body>
+  <h2>회원가입</h2>
+  <input type="email" id="email" placeholder="이메일" />
+  <input type="password" id="password" placeholder="비밀번호" />
+  <button id="signupBtn">회원가입</button>
+  <button onclick="window.location.href='index.html'">돌아가기</button>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
+
+  <script>
+    // Firebase 설정 (index.html과 동일)
+    const firebaseConfig = {
+      apiKey: "AIzaSyAhdJZcG-4p4D2dT5K5QaPo5OLzShS2krw",
+      authDomain: "bbuddistudy.firebaseapp.com",
+      projectId: "bbuddistudy",
+      storageBucket: "bbuddistudy.appspot.com",
+      messagingSenderId: "154303839611",
+      appId: "1:154303839611:web:7b7c806b002850138991de"
+    };
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.getAuth(app);
+
+    // 회원가입 처리
+    document.getElementById('signupBtn').addEventListener('click', () => {
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
+
+      if (!email || !password) {
+        alert('이메일과 비밀번호를 입력해주세요.');
+        return;
+      }
+
+      firebase.createUserWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          alert('회원가입 성공! 로그인해주세요.');
+          window.location.href = 'index.html'; // 로그인 페이지로 이동
+        })
+        .catch((error) => {
+          alert(`회원가입 실패: ${error.message}`);
+        });
+    });
+  </script>
+</body>
+</html>
