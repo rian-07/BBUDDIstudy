@@ -1,147 +1,23 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>BBUDDIstudy 로그인</title>
-  <style>
-    /* 화면 중앙 정렬 및 기본 스타일 */
-    body, html {
-      height: 100%;
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #f0f2f5;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .login-container {
-      background: white;
-      padding: 40px 30px;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      width: 320px;
-      box-sizing: border-box;
-    }
-
-    h2 {
-      text-align: center;
-      margin-bottom: 24px;
-      color: #333;
-    }
-
-    input[type="email"],
-    input[type="password"] {
-      width: 100%;
-      padding: 12px 10px;
-      margin-bottom: 16px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-size: 14px;
-    }
-
-    button {
-      width: 100%;
-      padding: 12px;
-      background-color: #4caf50;
-      border: none;
-      border-radius: 4px;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-      margin-bottom: 10px;
-    }
-
-    button:hover {
-      background-color: #45a049;
-    }
-
-    .signup-btn {
-      background-color: #2196F3;
-    }
-
-    .signup-btn:hover {
-      background-color: #1e88e5;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인 - 나의 스터디 앱</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
-  <div class="login-container">
-    <h2>로그인</h2>
-    <input type="email" id="email" placeholder="이메일" required />
-    <input type="password" id="password" placeholder="비밀번호" required />
-    <button id="loginBtn">로그인</button>
-    <button id="signupBtn" class="signup-btn">회원가입</button>
-  </div>
+    <div class="login-container">
+        <h1>로그인</h1>
+        <input type="email" id="emailInput" placeholder="이메일">
+        <input type="password" id="passwordInput" placeholder="비밀번호">
+        <button id="loginBtn">로그인</button>
+        <button id="signupBtn">회원가입</button>
+        <p id="errorMessage" class="error-message"></p>
+    </div>
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
-
-  <script>
-    // Firebase 초기화
-    const firebaseConfig = {
-      apiKey: "AIzaSyAhdJZcG-4p4D2dT5K5QaPo5OLzShS2krw",
-      authDomain: "bbuddistudy.firebaseapp.com",
-      projectId: "bbuddistudy",
-      storageBucket: "bbuddistudy.appspot.com",
-      messagingSenderId: "154303839611",
-      appId: "1:154303839611:web:7b7c806b002850138991de"
-    };
-    const app = firebase.initializeApp(firebaseConfig);
-    const auth = firebase.getAuth(app);
-
-    const loginBtn = document.getElementById('loginBtn');
-    const signupBtn = document.getElementById('signupBtn');
-    const emailInput = document.getElementById('email');
-    const passwordInput = document.getElementById('password');
-
-    // 로그인 상태 자동 체크 후 홈 화면 이동
-    firebase.onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // 이미 로그인된 상태면 홈 화면으로 이동
-        window.location.href = 'home.html';
-      }
-    });
-
-    // 로그인
-    loginBtn.addEventListener('click', () => {
-      const email = emailInput.value.trim();
-      const password = passwordInput.value.trim();
-
-      if (!email || !password) {
-        alert('이메일과 비밀번호를 입력해주세요.');
-        return;
-      }
-
-      firebase.signInWithEmailAndPassword(auth, email, password)
-        .then(() => {
-          window.location.href = 'home.html'; // 로그인 성공 후 홈 화면 이동
-        })
-        .catch((error) => {
-          alert(`로그인 실패: ${error.message}`);
-        });
-    });
-
-    // 회원가입
-    signupBtn.addEventListener('click', () => {
-      const email = emailInput.value.trim();
-      const password = passwordInput.value.trim();
-
-      if (!email || !password) {
-        alert('회원가입을 위해 이메일과 비밀번호를 입력해주세요.');
-        return;
-      }
-
-      firebase.createUserWithEmailAndPassword(auth, email, password)
-        .then(() => {
-          alert('회원가입 성공! 로그인 후 이용해주세요.');
-        })
-        .catch((error) => {
-          alert(`회원가입 실패: ${error.message}`);
-        });
-    });
-  </script>
+    <script src="js/auth.js"></script>
 </body>
 </html>
+
