@@ -42,20 +42,6 @@
 
   // 회원가입 함수
   signupBtn.addEventListener('click', () => {
-    const email = emailInput.value.trim();
-    const password = passwordInput.value.trim();
-
-    if (!email || !password) {
-      alert('회원가입을 위해 이메일과 비밀번호를 입력해주세요.');
-      return;
-    }
-
-    firebase.createUserWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        alert('회원가입 성공! 로그인 후 이용해주세요.');
-      })
-      .catch((error) => {
-        alert(`회원가입 실패: ${error.message}`);
-      });
-  });
+  window.location.href = 'signup.html';
+});
 </script>
