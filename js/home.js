@@ -13,10 +13,10 @@ onAuthStateChanged(auth, (user) => {
     // TODO: 누적 공부 시간, 할 일 목록 불러오기
   } else {
     // 로그인 안 됐으면 로그인 화면으로 이동
-    window.location.href = '/BBUDDI/index.html';
+    window.location.href = '/BBUDDIstudy/index.html';
   }
 });
 
 startBtn.addEventListener('click', () => {
-  window.location.href = '/BBUDDI/study.html'; // 타이머 화면으로 이동
+  window.location.href = '/BBUDDIstudy/study.html'; // 타이머 화면으로 이동
 });
