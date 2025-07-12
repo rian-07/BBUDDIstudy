@@ -12,8 +12,8 @@ body, html {
 
 /* 컨테이너 박스 */
 .container {
-  width: 90%;
-  max-width: 600px;
+  width: 100%;
+  max-width: 1000px;
   background-color: #f9fdf7; /* 아주 연한 크림색 */
   border-radius: 12px;
   padding: 25px 30px;
