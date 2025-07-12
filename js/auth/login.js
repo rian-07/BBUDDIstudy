@@ -9,7 +9,7 @@ document.getElementById("login-btn").addEventListener("click", () => {
   signInWithEmailAndPassword(auth, email, password)
     .then(() => {
       // 로그인 성공 시 home 페이지로 이동
-      window.location.href = "./home.html";
+      window.location.href = "/BBUDDIstudy/home.html";
     })
     .catch((error) => {
       alert("로그인 실패: " + error.message);
@@ -17,5 +17,5 @@ document.getElementById("login-btn").addEventListener("click", () => {
 });
 
 document.getElementById("go-signup-btn").addEventListener("click", () => {
-  window.location.href = "./signup.html";
+  window.location.href = "/BBUDDIstudy/signup.html";
 });
