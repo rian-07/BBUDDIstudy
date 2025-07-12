@@ -3,14 +3,13 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-// 너의 Firebase 프로젝트 설정 정보로 교체해야 함
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyAhdJZcG-4p4D2dT5K5QaPo5OLzShS2krw",
+  authDomain: "bbuddistudy.firebaseapp.com",
+  projectId: "bbuddistudy",
+  storageBucket: "bbuddistudy.appspot.com",
+  messagingSenderId: "154303839611",
+  appId: "1:154303839611:web:7b7c806b002850138991de"
 };
 
 // Firebase 앱 초기화 (한 번만)
