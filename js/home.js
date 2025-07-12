@@ -1,4 +1,4 @@
-iimport { auth } from '/BBUDDIstudy/js/firebase-init.js';
+import { auth } from '/BBUDDIstudy/js/firebase-init.js';
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const studyTimeDiv = document.getElementById('study-time');
