@@ -1,4 +1,4 @@
-import { auth } from '/BBUDDIstud/js/firebase-init.js';
+import { auth } from '/BBUDDIstudy/js/firebase-init.js';
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const userEmailDiv = document.getElementById('user-email');
