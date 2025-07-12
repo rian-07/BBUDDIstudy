@@ -7,17 +7,6 @@
   <link rel="stylesheet" href="/BBUDDIstudy/css/edit-record.css" />
 
   <script type="module">
-    // Firebase 관련 라이브러리들을 import.meta.url을 사용하여 절대 경로로 가져옵니다.
-    // 이는 edit-record.js 내부에서 import 하는 것과 유사하지만,
-    // HTML 레벨에서 먼저 로드함으로써 잠재적인 타이밍 문제를 해결할 수 있습니다.
-    // 하지만 더 표준적인 방법은 Firebase CDN 스크립트를 직접 HTML에 포함시키는 것입니다.
-    // 아래 두 줄은 edit-record.js에서 import하고 있으므로, 여기서는 불필요할 수 있습니다.
-    // 만약 firebase-init.js가 이들을 필요로 한다면, firebase-init.js 내부에서
-    // import를 하거나, 아래처럼 CDN으로 먼저 로드하는 것을 고려해야 합니다.
-
-    // **가장 권장하는 방법: Firebase CDN 스크립트들을 HTML <head>에 직접 추가**
-    // 아래 두 스크립트 태그를 <head> 안에 추가하여 Firebase SDK를 먼저 로드합니다.
-    // 이렇게 하면 edit-record.js 내부의 import가 더 안정적으로 작동할 수 있습니다.
   </script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
