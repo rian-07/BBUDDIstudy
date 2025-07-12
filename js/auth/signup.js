@@ -1,4 +1,4 @@
-import { auth } from "/BBUDDIstudy/js/firebase-init.js";
+import { auth } from "/BBUDDIstudy/j/firebase-init.js";
 import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 document.getElementById("signup-btn").addEventListener("click", () => {
