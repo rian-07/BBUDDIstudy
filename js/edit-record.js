@@ -1,132 +1,134 @@
 import { auth } from '/BBUDDIstudy/js/firebase-init.js';
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore, collection, getDocs, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const db = getFirestore();
 
-const recordListEl = document.getElementById('record-list');
-const saveBtn = document.getElementById('save-record-btn');
+const startHourInput = document.getElementById('start-hour');
+const startMinInput = document.getElementById('start-min');
+const startSecInput = document.getElementById('start-sec');
 
-let records = []; // {id, startTime, endTime, seconds}
+const endHourInput = document.getElementById('end-hour');
+const endMinInput = document.getElementById('end-min');
+const endSecInput = document.getElementById('end-sec');
 
-// 날짜 키 (오늘 기준, 5시 이전은 전날로)
+const totalTimeDisplay = document.getElementById('total-time');
+const saveBtn = document.getElementById('save-records-btn');
+
+let record = {
+  startHour: 9, startMin: 0, startSec: 0,
+  endHour: 10, endMin: 0, endSec: 0,
+  seconds: 3600
+};
+
 function getTodayKey() {
   const now = new Date();
   if (now.getHours() < 5) now.setDate(now.getDate() - 1);
   const y = now.getFullYear();
-  const m = (now.getMonth() +1).toString().padStart(2, '0');
-  const d = now.getDate().toString().padStart(2, '0');
+  const m = (now.getMonth() + 1).toString().padStart(2,'0');
+  const d = now.getDate().toString().padStart(2,'0');
   return `${y}-${m}-${d}`;
 }
 
-// 시간 문자열(예: "14:30") → 초 변환
-function timeStrToSeconds(t) {
-  const [h,m] = t.split(':').map(Number);
-  return h * 3600 + m * 60;
+function formatSeconds(totalSeconds) {
+  const h = Math.floor(totalSeconds / 3600).toString().padStart(2,'0');
+  const m = Math.floor((totalSeconds % 3600) / 60).toString().padStart(2,'0');
+  const s = (totalSeconds % 60).toString().padStart(2,'0');
+  return `${h}:${m}:${s}`;
 }
 
-// 초 → "HH:MM:SS"
-function formatSeconds(s) {
-  const h = Math.floor(s/3600).toString().padStart(2,'0');
-  const m = Math.floor((s%3600)/60).toString().padStart(2,'0');
-  const sec = (s%60).toString().padStart(2,'0');
-  return `${h}:${m}:${sec}`;
+// 화면에 값을 표시하고 총 공부 시간 계산
+function renderRecord() {
+  startHourInput.value = record.startHour;
+  startMinInput.value = record.startMin;
+  startSecInput.value = record.startSec;
+
+  endHourInput.value = record.endHour;
+  endMinInput.value = record.endMin;
+  endSecInput.value = record.endSec;
+
+  updateTotalSeconds();
 }
 
-// 시작시간, 종료시간 input 값 바뀔 때마다 공부시간 업데이트
-function updateRecordSeconds(idx) {
-  const startInput = document.getElementById(`start-${idx}`);
-  const endInput = document.getElementById(`end-${idx}`);
-  const secSpan = document.getElementById(`sec-${idx}`);
+// 시간 입력값 변경될 때마다 총 공부 시간 갱신
+function updateTotalSeconds() {
+  const sh = Number(startHourInput.value);
+  const sm = Number(startMinInput.value);
+  const ss = Number(startSecInput.value);
+  const eh = Number(endHourInput.value);
+  const em = Number(endMinInput.value);
+  const es = Number(endSecInput.value);
 
-  const startSec = timeStrToSeconds(startInput.value);
-  const endSec = timeStrToSeconds(endInput.value);
+  const startTotal = sh*3600 + sm*60 + ss;
+  const endTotal = eh*3600 + em*60 + es;
+  let diff = endTotal - startTotal;
+  if(diff < 0) diff = 0;
 
-  let diff = endSec - startSec;
-  if (diff < 0) diff = 0;
-  secSpan.textContent = formatSeconds(diff);
-  records[idx].seconds = diff;
+  record.seconds = diff;
+  totalTimeDisplay.textContent = formatSeconds(diff);
 }
 
-// 화면에 기록 렌더링
-function renderRecords() {
-  recordListEl.innerHTML = '';
-  records.forEach((rec, idx) => {
-    const li = document.createElement('li');
-
-    li.innerHTML = `
-      <input type="time" id="start-${idx}" value="${rec.startTime}" />
-      <input type="time" id="end-${idx}" value="${rec.endTime}" />
-      <span id="sec-${idx}">${formatSeconds(rec.seconds)}</span>
-    `;
-
-    recordListEl.appendChild(li);
-
-    document.getElementById(`start-${idx}`).addEventListener('change', () => updateRecordSeconds(idx));
-    document.getElementById(`end-${idx}`).addEventListener('change', () => updateRecordSeconds(idx));
-  });
-}
-
-// 저장 버튼 클릭 시 Firestore에 저장
-saveBtn.addEventListener('click', async () => {
-  const user = auth.currentUser;
-  if (!user) {
-    alert('로그인이 필요합니다.');
-    window.location.href = '/BBUDDIstudy/index.html';
-    return;
-  }
-
+// 오늘 기록 불러오기
+async function loadRecord(uid) {
   const todayKey = getTodayKey();
-  const colRef = collection(db, 'users', user.uid, 'studyLogs', todayKey);
+  const docRef = doc(db, 'users', uid, 'studyLogs', todayKey);
+  const docSnap = await getDoc(docRef);
 
-  // 기존 데이터 모두 지우고 다시 저장 (간단 구현)
-  const oldDocs = await getDocs(colRef);
-  for (const docSnap of oldDocs.docs) {
-    await doc(db, 'users', user.uid, 'studyLogs', todayKey, docSnap.id).delete();
-  }
+  if(docSnap.exists()) {
+    const data = docSnap.data();
+    const startArr = (data.startTime || "09:00:00").split(':').map(Number);
+    const endArr = (data.endTime || "10:00:00").split(':').map(Number);
 
-  // 새 기록 저장
-  for (const rec of records) {
-    await setDoc(doc(colRef, rec.id || undefined), {
-      startTime: rec.startTime,
-      endTime: rec.endTime,
-      seconds: rec.seconds
-    });
+    record = {
+      startHour: startArr[0], startMin: startArr[1], startSec: startArr[2],
+      endHour: endArr[0], endMin: endArr[1], endSec: endArr[2],
+      seconds: data.seconds || 0
+    };
   }
+  renderRecord();
+}
+
+// 기록 저장
+async function saveRecord(uid) {
+  const todayKey = getTodayKey();
+  const docRef = doc(db, 'users', uid, 'studyLogs', todayKey);
+
+  const startTimeStr = `${String(record.startHour).padStart(2,'0')}:${String(record.startMin).padStart(2,'0')}:${String(record.startSec).padStart(2,'0')}`;
+  const endTimeStr = `${String(record.endHour).padStart(2,'0')}:${String(record.endMin).padStart(2,'0')}:${String(record.endSec).padStart(2,'0')}`;
+
+  await setDoc(docRef, {
+    startTime: startTimeStr,
+    endTime: endTimeStr,
+    seconds: record.seconds
+  }, {merge: true});
 
   alert('기록이 저장되었습니다!');
-  window.location.href = '/BBUDDIstudy/home.html';
-});
+}
 
-// 로그인 상태 확인 및 초기 데이터 로드
 onAuthStateChanged(auth, async user => {
-  if (!user) {
+  if(!user) {
     window.location.href = '/BBUDDIstudy/index.html';
     return;
   }
+  await loadRecord(user.uid);
+});
 
-  const todayKey = getTodayKey();
-  const colRef = collection(db, 'users', user.uid, 'studyLogs', todayKey);
-  const snapshot = await getDocs(colRef);
+// 인풋 변화 이벤트 등록
+[startHourInput, startMinInput, startSecInput, endHourInput, endMinInput, endSecInput].forEach(input => {
+  input.addEventListener('change', updateTotalSeconds);
+});
 
-  if (snapshot.empty) {
-    // 초기 데이터가 없으면 빈 1개 항목 만들기
-    records = [{
-      id: undefined,
-      startTime: '09:00',
-      endTime: '10:00',
-      seconds: 3600
-    }];
-  } else {
-    records = snapshot.docs.map(docSnap => {
-      const d = docSnap.data();
-      return {
-        id: docSnap.id,
-        startTime: d.startTime || '09:00',
-        endTime: d.endTime || '10:00',
-        seconds: d.seconds || 0
-      };
-    });
-  }
-  renderRecords();
+saveBtn.addEventListener('click', async () => {
+  const user = auth.currentUser;
+  if(!user) return alert('로그인 상태가 아닙니다.');
+
+  // 인풋값을 record에 반영
+  record.startHour = Number(startHourInput.value);
+  record.startMin = Number(startMinInput.value);
+  record.startSec = Number(startSecInput.value);
+  record.endHour = Number(endHourInput.value);
+  record.endMin = Number(endMinInput.value);
+  record.endSec = Number(endSecInput.value);
+
+  await saveRecord(user.uid);
 });
