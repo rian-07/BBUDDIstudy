@@ -11,16 +11,23 @@
     <header>
       <h2>할 일 수정</h2>
       <div class="btn-group">
-        <button id="add-todo-btn">할 일 추가</button>
-        <button id="delete-todo-btn">할 일 삭제</button>
+        <button id="add-todo-btn" type="button">할 일 추가</button>
+        <button id="delete-todo-btn" type="button">할 일 삭제</button>
       </div>
     </header>
 
     <ul id="todo-edit-list" class="todo-edit-list">
-      <!-- 할 일 입력칸들이 여기에 -->
+      <!-- 할 일 입력칸들이 자바스크립트로 동적 생성됨 -->
+      <!-- 예시로 아래처럼 넣을 수도 있음 -->
+      <!--
+      <li>
+        <input type="text" class="todo-input" name="todo-item-0" />
+        <button class="todo-delete-btn" type="button">X</button>
+      </li>
+      -->
     </ul>
 
-    <button id="save-todo-btn" class="save-btn">저장하기</button>
+    <button id="save-todo-btn" class="save-btn" type="button">저장하기</button>
   </div>
 
   <script type="module" src="/BBUDDIstudy/js/todo-edit.js"></script>
