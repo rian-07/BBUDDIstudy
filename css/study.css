@@ -1,91 +1,79 @@
-body {
-  margin: 0;
-  padding: 0;
+body, html {
+  margin: 0; padding: 0;
+  height: 100%;
   font-family: 'Noto Sans KR', sans-serif;
-  background-color: #f0f4ff;
+  background-color: #d6e9c6; /* 자연 느낌 연두 */
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
 }
 
 .container {
   width: 90%;
-  max-width: 600px;
-  padding: 20px;
-  box-sizing: border-box;
-  background-color: white;
+  max-width: 500px;
+  background: #f9fdf7;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 30px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.15);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: 80%;
+  align-items: center;
+  position: relative;
 }
 
-.current-study-time {
+#end-study-btn {
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  background-color: #6a994e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#end-study-btn:hover {
+  background-color: #527a3c;
+}
+
+.study-time-header {
+  margin-top: 60px;
   text-align: center;
-  margin-bottom: 30px;
 }
 
-#current-time {
-  font-size: 2.5rem;
+.study-time {
+  font-size: 3rem;
   font-weight: bold;
-  color: #3344cc;
-  margin-top: 8px;
+  margin-top: 10px;
+  color: #386641;
 }
 
 .pomodoro-section {
+  margin-top: 40px;
+  width: 100%;
   text-align: center;
 }
 
-.pomodoro-section h3 {
-  font-size: 1.5rem;
-  margin-bottom: 15px;
+.pomodoro-timer {
+  font-size: 3rem;
+  font-weight: bold;
+  margin: 15px 0;
+  color: #f28482;
 }
 
-.timer-display {
-  font-size: 4rem;
-  font-weight: 700;
-  background-color: #dde6ff;
-  border-radius: 12px;
-  padding: 20px 0;
-  margin-bottom: 20px;
-  user-select: none;
-}
-
-.timer-controls {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-}
-
-#timer-input {
-  width: 60px;
-  font-size: 1.1rem;
-  text-align: center;
-  padding: 5px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
-
-button {
-  padding: 8px 14px;
+.pomodoro-controls button {
+  margin: 0 8px;
+  padding: 8px 16px;
   border: none;
   border-radius: 8px;
-  background-color: #5c80ff;
+  cursor: pointer;
+  background-color: #f28482;
   color: white;
   font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
 }
 
-button:disabled {
-  background-color: #aaa;
-  cursor: not-allowed;
-}
-
-button:hover:not(:disabled) {
-  background-color: #3a62d6;
+.pomodoro-controls button:hover {
+  background-color: #d95d5d;
 }
