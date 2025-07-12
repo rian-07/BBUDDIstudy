@@ -7,9 +7,10 @@ const firebaseConfig = {
   apiKey: "AIzaSyAhdJZcG-4p4D2dT5K5QaPo5OLzShS2krw",
   authDomain: "bbuddistudy.firebaseapp.com",
   projectId: "bbuddistudy",
-  storageBucket: "bbuddistudy.appspot.com",
+  storageBucket: "bbuddistudy.firebasestorage.app",
   messagingSenderId: "154303839611",
-  appId: "1:154303839611:web:7b7c806b002850138991de"
+  appId: "1:154303839611:web:7b7c806b002850138991de",
+  measurementId: "G-47SGQG1G20"
 };
 
 // Firebase 앱 초기화 (한 번만)
