@@ -31,5 +31,5 @@ editRecordBtn.addEventListener('click', () => {
 
 // 할 일 수정 버튼 클릭 시 (나중에 별도 페이지 연결 가능)
 editTodoBtn.addEventListener('click', () => {
-  window.location.href = '/BBUDDIstudy/edit-todo.html';
+  window.location.href = '/BBUDDIstudy/todo-edit.html';
 });
