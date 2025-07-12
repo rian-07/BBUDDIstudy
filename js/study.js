@@ -1,82 +1,86 @@
-const currentTimeDiv = document.getElementById('current-time');
-const timerDisplay = document.getElementById('timer');
-const timerInput = document.getElementById('timer-input');
-const startBtn = document.getElementById('start-btn');
-const pauseBtn = document.getElementById('pause-btn');
-const resetBtn = document.getElementById('reset-btn');
+// study.js
+import { auth } from '/BBUDDIstudy/js/firebase-init.js';
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-let timerDuration = parseInt(timerInput.value) * 60; // 초 단위
-let remainingTime = timerDuration;
-let timerInterval = null;
+const currentStudyTimeEl = document.getElementById('current-study-time');
+const endStudyBtn = document.getElementById('end-study-btn');
 
-function formatTime(seconds) {
-  const m = Math.floor(seconds / 60).toString().padStart(2, '0');
-  const s = (seconds % 60).toString().padStart(2, '0');
-  return `${m}:${s}`;
+let studyStartTime = Date.now();
+
+// 공부 시간 실시간 표시 함수
+function updateStudyTime() {
+  const elapsed = Date.now() - studyStartTime;
+  const totalSeconds = Math.floor(elapsed / 1000);
+  const hours = Math.floor(totalSeconds / 3600).toString().padStart(2, '0');
+  const minutes = Math.floor((totalSeconds % 3600) / 60).toString().padStart(2, '0');
+  const seconds = (totalSeconds % 60).toString().padStart(2, '0');
+
+  currentStudyTimeEl.textContent = `${hours}:${minutes}:${seconds}`;
 }
 
-function updateTimerDisplay() {
-  timerDisplay.textContent = formatTime(remainingTime);
-}
+// 1초마다 공부 시간 갱신
+let studyInterval = setInterval(updateStudyTime, 1000);
 
-function updateCurrentStudyTime() {
-  // TODO: 공부 누적 시간 불러와서 표시할 자리
-  // 지금은 그냥 00:00:00 표시
-  currentTimeDiv.textContent = "00:00:00";
-}
-
-timerInput.addEventListener('change', () => {
-  if (timerInterval) return; // 타이머 실행 중엔 변경 불가
-  timerDuration = parseInt(timerInput.value) * 60;
-  remainingTime = timerDuration;
-  updateTimerDisplay();
+// 공부 끝내기 버튼 클릭 시 홈으로 이동
+endStudyBtn.addEventListener('click', () => {
+  clearInterval(studyInterval);
+  // TODO: 공부 시간 Firebase에 저장 로직 추가 가능
+  window.location.href = '/BBUDDIstudy/home.html';
 });
 
-startBtn.addEventListener('click', () => {
-  if (timerInterval) return; // 이미 실행 중이면 무시
+/* -- 뽀모도로 타이머 구현 (기본 25분) -- */
+const pomoTimerEl = document.getElementById('pomodoro-timer');
+const startPomoBtn = document.getElementById('start-pomo-btn');
+const pausePomoBtn = document.getElementById('pause-pomo-btn');
+const resetPomoBtn = document.getElementById('reset-pomo-btn');
 
-  timerInterval = setInterval(() => {
-    remainingTime--;
-    updateTimerDisplay();
+let pomoTotalSeconds = 25 * 60;
+let pomoInterval = null;
+let pomoRunning = false;
 
-    if (remainingTime <= 0) {
-      clearInterval(timerInterval);
-      timerInterval = null;
-      alert("타이머 종료!");
-      startBtn.disabled = false;
-      pauseBtn.disabled = true;
-      resetBtn.disabled = false;
+function updatePomoDisplay() {
+  const m = Math.floor(pomoTotalSeconds / 60).toString().padStart(2, '0');
+  const s = (pomoTotalSeconds % 60).toString().padStart(2, '0');
+  pomoTimerEl.textContent = `${m}:${s}`;
+}
+
+function startPomo() {
+  if (pomoRunning) return;
+  pomoRunning = true;
+  pomoInterval = setInterval(() => {
+    if (pomoTotalSeconds > 0) {
+      pomoTotalSeconds--;
+      updatePomoDisplay();
+    } else {
+      clearInterval(pomoInterval);
+      pomoRunning = false;
+      alert('뽀모도로 완료!');
     }
   }, 1000);
+}
 
-  startBtn.disabled = true;
-  pauseBtn.disabled = false;
-  resetBtn.disabled = true;
-});
+function pausePomo() {
+  if (!pomoRunning) return;
+  clearInterval(pomoInterval);
+  pomoRunning = false;
+}
 
-pauseBtn.addEventListener('click', () => {
-  if (!timerInterval) return;
+function resetPomo() {
+  clearInterval(pomoInterval);
+  pomoTotalSeconds = 25 * 60;
+  updatePomoDisplay();
+  pomoRunning = false;
+}
 
-  clearInterval(timerInterval);
-  timerInterval = null;
+startPomoBtn.addEventListener('click', startPomo);
+pausePomoBtn.addEventListener('click', pausePomo);
+resetPomoBtn.addEventListener('click', resetPomo);
 
-  startBtn.disabled = false;
-  pauseBtn.disabled = true;
-  resetBtn.disabled = false;
-});
+updatePomoDisplay();
 
-resetBtn.addEventListener('click', () => {
-  if (timerInterval) {
-    clearInterval(timerInterval);
-    timerInterval = null;
+/* 로그인 확인 */
+onAuthStateChanged(auth, user => {
+  if (!user) {
+    window.location.href = '/BBUDDIstudy/index.html';
   }
-  remainingTime = timerDuration;
-  updateTimerDisplay();
-
-  startBtn.disabled = false;
-  pauseBtn.disabled = true;
-  resetBtn.disabled = true;
 });
-
-updateTimerDisplay();
-updateCurrentStudyTime();
