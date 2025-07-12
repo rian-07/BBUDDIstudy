@@ -4,10 +4,11 @@ import { getFirestore, collection, getDocs, doc, setDoc } from "https://www.gsta
 
 const db = getFirestore();
 
-const recordListEl = document.getElementById('record-list');
-const saveBtn = document.getElementById('save-records-btn');
+window.addEventListener('DOMContentLoaded', () => {
+  const recordListEl = document.getElementById('record-list');
+  const saveBtn = document.getElementById('save-records-btn');
 
-let records = [];  // {id, startHour, startMin, startSec, endHour, endMin, endSec, seconds}
+  let records = []; // {id, startHour, startMin, startSec, endHour, endMin, endSec, seconds}
 
 // 날짜 포맷 키 (yyyy-mm-dd)
 function getTodayKey() {
