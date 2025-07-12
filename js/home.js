@@ -4,7 +4,7 @@ import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10
 
 const db = getFirestore();
 
-const todayTimeEl = document.getElementById('today-study-time');
+const studyTimeEl = document.getElementById('study-time');
 
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
@@ -17,7 +17,7 @@ onAuthStateChanged(auth, async (user) => {
   const logSnap = await getDoc(logRef);
   const seconds = logSnap.exists() ? (logSnap.data().seconds || 0) : 0;
 
-  todayTimeEl.textContent = formatSeconds(seconds);
+  studyTimeEl.textContent = formatSeconds(seconds);
 });
 
 function getTodayKey() {
