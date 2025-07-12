@@ -1,61 +1,64 @@
-/* 전체 화면 레이아웃 */
+/* 배경 이미지 */
 body {
   margin: 0;
   padding: 0;
   font-family: 'Noto Sans KR', sans-serif;
-  background-color: #f9f9f9;
+
+  background-image: url('/BBUDDIstudy/assets/images/IMG_1966.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
   height: 100vh;
+  color: white;
+  text-shadow: 0 0 6px rgba(0,0,0,0.7);
+
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* 전체 컨테이너 */
+/* 컨테이너에 반투명 배경 */
 .container {
   width: 90%;
   max-width: 1000px;
-  height: 95%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;  /* 위아래 끝으로 정렬 */
+  background-color: rgba(0, 0, 0, 0.45);
+  border-radius: 12px;
+  padding: 20px;
   box-sizing: border-box;
 }
 
-/* 상단 중앙: 오늘 공부시간 */
+/* 상단 공부시간 중앙 정렬 */
 .study-time-header {
   text-align: center;
-  margin-top: 20px;
+  margin-bottom: 30px;
 }
 
 .study-time {
-  font-size: 2.2rem;
+  font-size: 2.5rem;
   font-weight: bold;
-  margin-top: 10px;
-  color: #333;
 }
 
-/* 하단 구조: 좌우 배치 */
-.bottom-section {
+/* 공부시간 바로 아래 컨텐츠 묶음 */
+.content-below-study-time {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  padding: 0 10px 20px 10px;
   gap: 20px;
+  justify-content: space-between;
 }
 
-/* 왼쪽: 할 일 영역 */
+/* 왼쪽 할 일 */
 .todo-section {
-  flex: 1;
+  flex: 2;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 15px;
+  color: white;
 }
 
 .todo-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.todo-header h3 {
-  margin: 0;
 }
 
 .todo-list {
@@ -65,32 +68,30 @@ body {
 }
 
 .todo-list li {
+  background-color: rgba(255,255,255,0.3);
   padding: 10px 14px;
   margin-bottom: 8px;
-  background-color: #fff;
-  border: 1px solid #ccc;
   border-radius: 8px;
-  font-size: 0.95rem;
 }
 
-/* 오른쪽: 버튼들 */
+/* 오른쪽 버튼 */
 .action-buttons {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  gap: 12px;
+  gap: 15px;
 }
 
 .action-btn {
-  padding: 10px 16px;
-  font-size: 1rem;
+  width: 100%;
+  padding: 12px 18px;
+  font-size: 1.1rem;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   background-color: #5c80ff;
-  color: white;
   cursor: pointer;
-  width: 140px;
-  transition: background-color 0.2s ease;
+  color: white;
+  transition: background-color 0.3s ease;
 }
 
 .action-btn:hover {
