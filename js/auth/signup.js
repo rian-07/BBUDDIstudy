@@ -1,4 +1,4 @@
-import { auth } from "../firebase-init.js";
+import { auth } from "/BBUDDIstudy/js/firebase-init.js";
 import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 document.getElementById("signup-btn").addEventListener("click", () => {
@@ -19,7 +19,7 @@ document.getElementById("signup-btn").addEventListener("click", () => {
   createUserWithEmailAndPassword(auth, email, password)
     .then(() => {
       alert("회원가입 성공! 로그인 화면으로 이동합니다.");
-      window.location.href = "./index.html";
+      window.location.href = "/BBUDDIstudy/index.html";
     })
     .catch((error) => {
       alert("회원가입 실패: " + error.message);
@@ -27,5 +27,5 @@ document.getElementById("signup-btn").addEventListener("click", () => {
 });
 
 document.getElementById("go-login-btn").addEventListener("click", () => {
-  window.location.href = "./index.html";
+  window.location.href = "/BBUDDIstudy/index.html";
 });
