@@ -12,6 +12,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+export { auth };
 
 function signUp(email, password) {
   createUserWithEmailAndPassword(auth, email, password)
@@ -22,5 +23,3 @@ function signUp(email, password) {
       console.error('회원가입 실패:', error.code, error.message);
     });
 }
-
-export { auth };
