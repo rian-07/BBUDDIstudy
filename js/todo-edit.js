@@ -1,12 +1,6 @@
 // todo-edit.js
 import { auth } from '/BBUDDIstudy/js/firebase-init.js';
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore, collection, getDocs, addDoc, doc, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-const todoListEl = document.getElementById('todo-edit-list');
-const addBtn = document.getElementById('add-todo-btn');
-const deleimport { auth } from '/BBUDDIstudy/js/firebase-init.js';
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getFirestore, collection, getDocs, addDoc, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const todoListEl = document.getElementById('todo-edit-list');
