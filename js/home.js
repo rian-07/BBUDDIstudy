@@ -37,3 +37,21 @@ function formatSeconds(totalSeconds) {
   const s = (totalSeconds % 60).toString().padStart(2, '0');
   return `${h}:${m}:${s}`;
 }
+
+window.addEventListener('DOMContentLoaded', () => {
+  const editRecordBtn = document.getElementById('edit-record-btn');
+  const editTodoBtn = document.getElementById('edit-todo-btn');
+
+  if (editRecordBtn) {
+    editRecordBtn.addEventListener('click', () => {
+      window.location.href = '/BBUDDIstudy/edit-record.html';
+    });
+  }
+
+  if (editTodoBtn) {
+    editTodoBtn.addEventListener('click', () => {
+      window.location.href = '/BBUDDIstudy/todo-edit.html';
+    });
+  }
+});
+
