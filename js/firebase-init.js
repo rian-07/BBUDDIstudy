@@ -22,3 +22,5 @@ function signUp(email, password) {
       console.error('회원가입 실패:', error.code, error.message);
     });
 }
+
+export { auth };
