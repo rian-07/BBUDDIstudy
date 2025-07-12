@@ -7,13 +7,26 @@
   <link rel="stylesheet" href="/BBUDDIstudy/css/edit-record.css" />
 </head>
 <body>
-  <div class="container">
-    <h2 class="title">공부 시간</h2>
-    <ul id="record-list" class="record-list">
-      <!-- 공부 기록 아이템들 동적 생성 -->
-    </ul>
-    <button id="save-record-btn" class="save-btn">기록 저장</button>
+  <div>
+    <label>시작시간: 
+      <input id="start-hour" type="number" min="0" max="23" /> 시 
+      <input id="start-min" type="number" min="0" max="59" /> 분 
+      <input id="start-sec" type="number" min="0" max="59" /> 초
+    </label>
   </div>
+  <div>
+    <label>종료시간: 
+      <input id="end-hour" type="number" min="0" max="23" /> 시 
+      <input id="end-min" type="number" min="0" max="59" /> 분 
+      <input id="end-sec" type="number" min="0" max="59" /> 초
+    </label>
+  </div>
+
+  <div>
+    총 공부 시간: <span id="total-time">00:00:00</span>
+  </div>
+
+  <button id="save-records-btn">기록 저장</button>
 
   <script type="module" src="/BBUDDIstudy/js/edit-record.js"></script>
 </body>
