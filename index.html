@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>로그인 - 나의 스터디 앱</title>
-    <link rel="stylesheet" href="css/common.css">
-    <link rel="stylesheet" href="css/login.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>로그인 - BBUDDIstudy</title>
+  <link rel="stylesheet" href="./css/style.css" />
+  <link rel="stylesheet" href="./css/login.css" />
 </head>
 <body>
-    <div class="login-container">
-        <h1>로그인</h1>
-        <input type="email" id="emailInput" placeholder="이메일">
-        <input type="password" id="passwordInput" placeholder="비밀번호">
-        <button id="loginBtn">로그인</button>
-        <button id="signupBtn">회원가입</button>
-        <p id="errorMessage" class="error-message"></p>
-    </div>
+  <div class="login-container">
+    <h2>로그인</h2>
+    <input type="email" id="email" placeholder="이메일" />
+    <input type="password" id="password" placeholder="비밀번호" />
+    <button id="login-btn">로그인</button>
+    <button id="go-signup-btn">회원가입</button>
+  </div>
 
-    <script src="js/auth.js"></script>
+  <!-- Firebase 초기화 + 로그인 스크립트 -->
+  <script type="module" src="./js/firebase-init.js"></script>
+  <script type="module" src="./js/auth/login.js"></script>
 </body>
 </html>
-
