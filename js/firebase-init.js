@@ -1,21 +1,24 @@
-// Firebase 모듈 import (필요한 것만)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAhdJZcG-4p4D2dT5K5QaPo5OLzShS2krw",
   authDomain: "bbuddistudy.firebaseapp.com",
   projectId: "bbuddistudy",
-  storageBucket: "bbuddistudy.firebasestorage.app",
+  storageBucket: "bbuddistudy.appspot.com",
   messagingSenderId: "154303839611",
-  appId: "1:154303839611:web:7b7c806b002850138991de",
-  measurementId: "G-47SGQG1G20"
+  appId: "1:154303839611:web:7b7c806b002850138991de"
 };
 
-// Firebase 앱 초기화 (한 번만)
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
-// 필요한 모듈 export
-export const auth = getAuth(app);
-export const db = getFirestore(app);
+function signUp(email, password) {
+  createUserWithEmailAndPassword(auth, email, password)
+    .then(userCredential => {
+      console.log('회원가입 성공:', userCredential.user);
+    })
+    .catch(error => {
+      console.error('회원가입 실패:', error.code, error.message);
+    });
+}
