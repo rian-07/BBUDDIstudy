@@ -3,20 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>기록 수정 - BBUDDIstudy</title>
+  <title>공부 기록 수정 - BBUDDIstudy</title>
   <link rel="stylesheet" href="/BBUDDIstudy/css/edit-record.css" />
 </head>
 <body>
   <div class="container">
-    <header>
-      <h2>기록 수정</h2>
-    </header>
-
-    <div id="record-list">
-      <!-- 공부 기록이 날짜별로 리스트업 됩니다 -->
-    </div>
-
-    <button id="save-record-btn">기록 저장</button>
+    <h2 class="title">공부 시간</h2>
+    <ul id="record-list" class="record-list">
+      <!-- 공부 기록 아이템들 동적 생성 -->
+    </ul>
+    <button id="save-record-btn" class="save-btn">기록 저장</button>
   </div>
 
   <script type="module" src="/BBUDDIstudy/js/edit-record.js"></script>
