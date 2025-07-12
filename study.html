@@ -8,23 +8,20 @@
 </head>
 <body>
   <div class="container">
-    <!-- 상단 공부 시간 표시 -->
-    <header class="current-study-time">
+    <button id="end-study-btn">공부 끝내기</button>
+
+    <header class="study-time-header">
       <h2>현재 공부 시간</h2>
-      <div id="current-time">00:00:00</div>
+      <div id="current-study-time" class="study-time">00:00:00</div>
     </header>
 
-    <!-- 하단 타이머 영역 -->
     <section class="pomodoro-section">
       <h3>뽀모도로 타이머</h3>
-      <div class="timer-display" id="timer">25:00</div>
-
-      <div class="timer-controls">
-        <label for="timer-input">타이머 설정 (분): </label>
-        <input type="number" id="timer-input" min="1" max="60" value="25" />
-        <button id="start-btn">시작</button>
-        <button id="pause-btn" disabled>일시정지</button>
-        <button id="reset-btn" disabled>초기화</button>
+      <div id="pomodoro-timer" class="pomodoro-timer">25:00</div>
+      <div class="pomodoro-controls">
+        <button id="start-pomo-btn">시작</button>
+        <button id="pause-pomo-btn">일시정지</button>
+        <button id="reset-pomo-btn">초기화</button>
       </div>
     </section>
   </div>
