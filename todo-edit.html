@@ -1,43 +1,92 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>공부 기록 수정 - BBUDDIstudy</title>
-  <link rel="stylesheet" href="/BBUDDIstudy/css/edit-record.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>오늘 할 일 수정 - BBUDDIstudy</title>
+  <link rel="stylesheet" href="/BBUDDIstudy/css/todo-edit.css" />
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 2rem;
+      background-color: #f9f9f9;
+    }
 
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-  <script type="module" src="/BBUDDIstudy/js/firebase-init.js"></script>
+    h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
 
+    ul#todo-edit-list {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 2rem;
+    }
+
+    ul#todo-edit-list li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    input.todo-input {
+      flex: 1;
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+
+    .todo-delete-btn {
+      background-color: #ff5c5c;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 0.4rem 0.7rem;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .btn-group button {
+      padding: 0.6rem 1.2rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+    }
+
+    #add-todo-btn {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    #delete-todo-btn {
+      background-color: #f0ad4e;
+      color: white;
+    }
+
+    #save-todo-btn {
+      background-color: #007BFF;
+      color: white;
+    }
+  </style>
 </head>
 <body>
-        <div>
-      <label>시작시간: 
-        <input id="start-hour" type="number" min="0" max="23" /> 시 
-        <input id="start-min" type="number" min="0" max="59" /> 분 
-        <input id="start-sec" type="number" min="0" max="59" /> 초
-      </label>
-    </div>
-    <br>
+  <h2>오늘 할 일 수정</h2>
 
-    <div>
-      <label>종료시간: 
-        <input id="end-hour" type="number" min="0" max="23" /> 시 
-        <input id="end-min" type="number" min="0" max="59" /> 분 
-        <input id="end-sec" type="number" min="0" max="59" /> 초
-      </label>
-    </div>
-    <br>
-        <div>
-      총 공부 시간: <span id="total-time">00:00:00</span>
-    </div>
-    <br>
-        <div>
-      <button id="save-records-btn">기록 저장</button>
-    </div>
+  <ul id="todo-edit-list"></ul>
 
-  <script type="module" src="/BBUDDIstudy/js/edit-record.js"></script>
+  <div class="btn-group">
+    <button id="add-todo-btn">할 일 추가</button>
+    <button id="delete-todo-btn">할 일 삭제</button>
+    <button id="save-todo-btn">저장</button>
+  </div>
+
+  <script type="module" src="/BBUDDIstudy/js/todo-edit.js"></script>
 </body>
 </html>
