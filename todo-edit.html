@@ -1,130 +1,28 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>오늘 할 일 - BBUDDIstudy</title>
-  <link rel="stylesheet" href="/BBUDDIstudy/css/todo-edit.css" />
-  <style>
-    body {
-      font-family: sans-serif;
-      padding: 2rem;
-      background-color: #f9f9f9;
-      min-height: 100vh;
-      box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .container {
-      max-width: 600px;
-      width: 100%;
-      margin: 0 auto;
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .header-with-buttons {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1.5rem;
-    }
-
-    .header-with-buttons h2 {
-      margin: 0;
-      font-weight: bold;
-      font-size: 1.8rem;
-    }
-
-    .btn-group-vertical {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .btn-group-vertical button {
-      padding: 0.5rem 1rem;
-      font-size: 0.95rem;
-      border: none;
-      border-radius: 5px;
-      color: white;
-      cursor: pointer;
-      font-weight: bold;
-      width: 110px;
-    }
-
-    #add-todo-btn {
-      background-color: #4CAF50;
-    }
-
-    #delete-todo-btn {
-      background-color: #f0ad4e;
-    }
-
-    ul#todo-edit-list {
-      list-style: none;
-      padding: 0;
-      margin: 0 0 2rem 0;
-      flex-grow: 1;
-      overflow-y: auto;
-      max-height: 400px;
-    }
-
-    ul#todo-edit-list li {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-
-    input.todo-input {
-      flex: 1;
-      padding: 0.5rem;
-      font-size: 1rem;
-    }
-
-    .todo-delete-btn {
-      background-color: #ff5c5c;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      padding: 0.4rem 0.7rem;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    #save-todo-btn {
-      padding: 0.7rem 1.5rem;
-      font-size: 1rem;
-      background-color: #007BFF;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      align-self: center;
-      margin-bottom: 1rem;
-      width: 120px;
-    }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>기록 수정 - BBUDDIstudy</title>
+    <link rel="stylesheet" href="/BBUDDIstudy/css/edit-record.css" />
 </head>
 <body>
-  <div class="container">
-    <div class="header-with-buttons">
-      <h2>오늘 Todo List _ </h2>
-      <div class="btn-group-vertical">
-        <button id="add-todo-btn">할 일 추가</button>
-        <button id="delete-todo-btn">할 일 삭제</button>
-      </div>
+    <div class="container">
+        <h2 class="title">공부 기록</h2>
+
+        <div class="date-selection">
+            <label for="record-date-picker">날짜 선택:</label>
+            <input type="date" id="record-date-picker">
+        </div>
+
+        <div class="actions">
+            <button id="add-record-btn">새 기록 추가</button>
+            <button id="save-records-btn">기록 저장</button>
+        </div>
+
+        <ul id="record-list" class="record-list">
+            </ul>
     </div>
-
-    <ul id="todo-edit-list"></ul>
-
-    <button id="save-todo-btn">저장</button>
-  </div>
-
-  <script type="module" src="/BBUDDIstudy/js/todo-edit.js"></script>
+    <script type="module" src="/BBUDDIstudy/js/edit-record.js"></script>
 </body>
 </html>
