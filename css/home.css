@@ -22,7 +22,7 @@ body {
 /* 컨테이너에 반투명 배경 */
 .container {
   width: 90%;
-  max-width: 1000px;
+  max-width: 600px;
   background-color: rgba(0, 0, 0, 0.45);
   border-radius: 12px;
   padding: 20px;
