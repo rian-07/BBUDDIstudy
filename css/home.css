@@ -91,7 +91,7 @@ body {
   border-radius: 10px;
   background-color: #e0fadb;
   cursor: pointer;
-  color: white;
+  color: green;
   transition: background-color 0.3s ease;
 }
 
