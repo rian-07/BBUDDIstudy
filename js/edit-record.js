@@ -28,22 +28,32 @@ function formatSeconds(totalSeconds) {
 function renderRecords() {
   recordListEl.innerHTML = '';
 
+  if (records.length === 0) {
+    const emptyMsg = document.createElement('p');
+    emptyMsg.textContent = '오늘 기록이 없습니다.';
+    emptyMsg.style.textAlign = 'center';
+    emptyMsg.style.color = '#666';
+    emptyMsg.style.marginTop = '20px';
+    recordListEl.appendChild(emptyMsg);
+    return;
+  }
+
   records.forEach((rec, idx) => {
     const li = document.createElement('li');
     li.className = 'record-item';
 
     li.innerHTML = `
-      <label>시작 시간:
+      <label>시작시간:
         <input type="number" id="start-hour-${idx}" min="0" max="23" value="${rec.startHour}" /> 시
         <input type="number" id="start-min-${idx}" min="0" max="59" value="${rec.startMin}" /> 분
         <input type="number" id="start-sec-${idx}" min="0" max="59" value="${rec.startSec}" /> 초
       </label>
-      <label>종료 시간:
+      <label>종료시간:
         <input type="number" id="end-hour-${idx}" min="0" max="23" value="${rec.endHour}" /> 시
         <input type="number" id="end-min-${idx}" min="0" max="59" value="${rec.endMin}" /> 분
         <input type="number" id="end-sec-${idx}" min="0" max="59" value="${rec.endSec}" /> 초
       </label>
-      <p>총 시간: <span id="seconds-${idx}">${formatSeconds(rec.seconds)}</span></p>
+      <p>총 시간: <span id="sec-${idx}">${formatSeconds(rec.seconds)}</span></p>
     `;
 
     recordListEl.appendChild(li);
@@ -74,7 +84,7 @@ function updateRecordSeconds(idx) {
     seconds: diff
   };
 
-  document.getElementById(`seconds-${idx}`).textContent = formatSeconds(diff);
+  document.getElementById(`sec-${idx}`).textContent = formatSeconds(diff);
 }
 
 async function loadRecords(uid) {
@@ -84,30 +94,23 @@ async function loadRecords(uid) {
   records = [];
   snapshot.forEach(docSnap => {
     const d = docSnap.data();
-    const startArr = d.startTime?.split(':').map(Number) || [9, 0, 0];
-    const endArr = d.endTime?.split(':').map(Number) || [10, 0, 0];
-    const seconds = d.seconds || 0;
+    const startArr = d.startTime?.split(':').map(Number);
+    const endArr = d.endTime?.split(':').map(Number);
+    const seconds = d.seconds ?? 0;
 
-    records.push({
-      id: docSnap.id,
-      startHour: startArr[0],
-      startMin: startArr[1],
-      startSec: startArr[2],
-      endHour: endArr[0],
-      endMin: endArr[1],
-      endSec: endArr[2],
-      seconds
-    });
+    if (startArr && endArr) {
+      records.push({
+        id: docSnap.id,
+        startHour: startArr[0],
+        startMin: startArr[1],
+        startSec: startArr[2],
+        endHour: endArr[0],
+        endMin: endArr[1],
+        endSec: endArr[2],
+        seconds
+      });
+    }
   });
-
-  if (records.length === 0) {
-    records.push({
-      id: getTodayKey(),
-      startHour: 9, startMin: 0, startSec: 0,
-      endHour: 10, endMin: 0, endSec: 0,
-      seconds: 3600
-    });
-  }
 
   renderRecords();
 }
