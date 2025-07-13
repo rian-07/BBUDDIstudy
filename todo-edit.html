@@ -10,17 +10,47 @@
       font-family: sans-serif;
       padding: 2rem;
       background-color: #f9f9f9;
+      position: relative;
+      min-height: 100vh;
+      box-sizing: border-box;
     }
 
     h2 {
       text-align: center;
-      margin-bottom: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .top-right-buttons {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .top-right-buttons button {
+      padding: 0.5rem 1rem;
+      font-size: 0.95rem;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    #add-todo-btn {
+      background-color: #4CAF50;
+    }
+
+    #delete-todo-btn {
+      background-color: #f0ad4e;
     }
 
     ul#todo-edit-list {
       list-style: none;
       padding: 0;
-      margin-bottom: 2rem;
+      margin-bottom: 4rem;
     }
 
     ul#todo-edit-list li {
@@ -46,46 +76,36 @@
       font-weight: bold;
     }
 
-    .btn-group {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-    }
-
-    .btn-group button {
-      padding: 0.6rem 1.2rem;
-      font-size: 1rem;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-    }
-
-    #add-todo-btn {
-      background-color: #4CAF50;
-      color: white;
-    }
-
-    #delete-todo-btn {
-      background-color: #f0ad4e;
-      color: white;
-    }
-
     #save-todo-btn {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
       background-color: #007BFF;
       color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
   <h2>오늘 할 일 수정</h2>
 
-  <ul id="todo-edit-list"></ul>
-
-  <div class="btn-group">
+  <!-- 오른쪽 상단 버튼 -->
+  <div class="top-right-buttons">
     <button id="add-todo-btn">할 일 추가</button>
     <button id="delete-todo-btn">할 일 삭제</button>
-    <button id="save-todo-btn">저장</button>
   </div>
+
+  <!-- 할 일 목록 -->
+  <ul id="todo-edit-list"></ul>
+
+  <!-- 하단 저장 버튼 -->
+  <button id="save-todo-btn">저장</button>
 
   <script type="module" src="/BBUDDIstudy/js/todo-edit.js"></script>
 </body>
