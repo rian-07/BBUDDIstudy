@@ -1,88 +1,171 @@
 /* 전체 배경 및 폰트 설정 */
 body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #f8f9fa;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f8f9fa;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* 컨테이너를 상단에 배치 */
+    min-height: 100vh;
 }
 
 /* 컨테이너 스타일 */
 .container {
-  margin-top: 40px;
-  width: 90%;
-  max-width: 600px;
-  background-color: #ffffff;
-  padding: 30px 20px;
-  border-radius: 16px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    margin-top: 40px; /* 상단 여백 추가 */
+    width: 90%;
+    max-width: 600px;
+    background-color: #ffffff;
+    padding: 30px 20px;
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
 /* 상단 제목 */
-.container h2 {
-  text-align: center;
-  margin-bottom: 30px;
-  font-size: 1.8rem;
-  color: #333;
+.title { /* h2 태그 대신 클래스 선택자로 변경 */
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1.8rem;
+    color: #333;
+}
+
+/* 날짜 선택 섹션 */
+.date-selection {
+    text-align: center;
+    margin-bottom: 25px; /* 아래 여백 추가 */
+    padding-bottom: 15px; /* 패딩으로 섹션 구분 */
+    border-bottom: 1px solid #eee; /* 구분선 추가 */
+}
+
+#record-date-picker {
+    padding: 10px 15px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #495057;
+    cursor: pointer;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+#record-date-picker:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* 액션 버튼 섹션 (새 기록 추가, 기록 저장) */
+.actions {
+    text-align: center;
+    margin-bottom: 30px; /* 아래 여백 추가 */
+}
+
+/* 모든 버튼 공통 스타일 */
+.actions button {
+    padding: 12px 25px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+    margin: 0 8px; /* 버튼 사이 간격 */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* 버튼 그림자 */
+}
+
+/* 새 기록 추가 버튼 */
+#add-record-btn {
+    background-color: #007bff; /* 파란색 계열 */
+    color: white;
+}
+
+#add-record-btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-1px);
+}
+
+/* 기록 저장 버튼 */
+#save-records-btn {
+    background-color: #28a745; /* 녹색 계열 */
+    color: white;
+}
+
+#save-records-btn:hover {
+    background-color: #218838;
+    transform: translateY(-1px);
 }
 
 /* 기록 리스트 */
 #record-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
 /* 각 기록 항목 */
 .record-item {
-  background-color: #f1f3f5;
-  border-radius: 10px;
-  padding: 20px;
-  margin-bottom: 20px;
+    background-color: #f1f3f5;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* 각 기록 항목에 가벼운 그림자 */
+    position: relative; /* hr에 대한 상대적 위치 지정을 위해 */
 }
 
-/* 라벨 정렬 */
-.record-item label {
-  display: block;
-  margin-bottom: 10px;
-  font-weight: bold;
-  color: #444;
+/* 라벨 스타일 */
+.record-item p { /* p 태그를 사용하여 라벨 역할 */
+    margin: 0 0 10px 0; /* 단락 간격 조정 */
+    font-size: 1rem;
+    color: #444;
+    display: flex; /* 내부 요소 정렬을 위해 flex 사용 */
+    align-items: center;
 }
 
 /* 인풋 필드 */
-.record-item input[type="number"] {
-  width: 60px;
-  padding: 6px;
-  margin: 0 4px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 0.95rem;
+.record-item .time-input { /* .time-input 클래스 사용 */
+    width: 50px; /* 너비 약간 줄임 */
+    padding: 8px; /* 패딩 늘림 */
+    margin: 0 5px; /* 마진 조정 */
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    text-align: center; /* 숫자 중앙 정렬 */
+    -moz-appearance: textfield; /* Firefox에서 숫자 입력 필드의 화살표 숨김 */
+}
+
+/* 크롬, 사파리 등에서 숫자 입력 필드의 화살표 숨김 */
+.record-item .time-input::-webkit-outer-spin-button,
+.record-item .time-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 /* 총 시간 텍스트 */
-.record-item p {
-  margin-top: 8px;
-  font-size: 0.95rem;
-  color: #666;
+.record-item p:last-child { /* 마지막 p 태그 (총 공부 시간) */
+    font-weight: bold; /* 총 시간 강조 */
+    color: #007bff; /* 색상 변경 */
+    margin-top: 15px; /* 위쪽 마진 추가 */
 }
 
-/* 저장 버튼 */
-#save-records-btn {
-  display: block;
-  margin: 30px auto 0;
-  padding: 12px 24px;
-  font-size: 1rem;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
+/* 총 시간 스팬 */
+.record-item p:last-child span {
+    margin-left: 5px; /* "총 공부 시간:" 텍스트와 간격 */
 }
 
-#save-records-btn:hover {
-  background-color: #43a047;
+
+/* 기록이 없을 때 메시지 */
+#record-list p {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+    margin-top: 30px; /* 컨테이너 중앙으로 약간 이동 */
+    font-size: 1.1rem;
+}
+
+/* 각 기록 항목 아래 구분선 */
+.record-item + .record-item { /* 두 번째 기록 항목부터 위쪽에만 적용 */
+    border-top: 1px solid #e0e0e0;
+    padding-top: 20px;
+}
+/* 마지막 기록 항목의 아래쪽 경계선을 제거하거나 조정하여 시각적 일관성 유지 */
+.record-item:last-of-type {
+    margin-bottom: 0;
 }
