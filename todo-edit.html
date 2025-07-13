@@ -1,31 +1,28 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>할 일 수정 - BBUDDIstudy</title>
-    <link rel="stylesheet" href="/BBUDDIstudy/css/todo-edit.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>오늘 할 일 수정</title>
+  <link rel="stylesheet" href="/BBUDDIstudy/css/todo-edit.css" />
 </head>
 <body>
-    <div class="container">
-        <h2>TODO LIST __ <br/> </h2>
-
-        <div class="todo-input-group">
-            <input type="text" id="new-todo-input" placeholder="새로운 할 일을 입력하세요." />
-            <button id="add-todo-btn">추가</button>
-        </div>
-
-        <div class="todo-list-container">
-            <ul id="todo-list">
-                </ul>
-        </div>
-
-        <div class="button-group">
-            <button id="delete-todo-btn">할 일 삭제</button>
-            <button id="save-todo-btn">저장</button>
-        </div>
+  <div class="container">
+    <div class="header">
+      <h2> TODO LIST <br/> </h2>
+      <div class="btn-group">
+        <button id="add-todo-btn">할 일 추가</button>
+        <button id="delete-todo-btn">할 일 삭제</button>
+      </div>
     </div>
 
-    <script type="module" src="/BBUDDIstudy/js/todo-edit.js"></script>
+    <ul id="todo-edit-list"></ul>
+
+    <div class="save-area">
+      <button id="save-todo-btn">저장</button>
+    </div>
+  </div>
+
+  <script type="module" src="/BBUDDIstudy/js/todo-edit.js"></script>
 </body>
 </html>
