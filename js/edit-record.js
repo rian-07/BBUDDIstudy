@@ -6,7 +6,7 @@ const db = getFirestore();
 const recordListEl = document.getElementById('record-list');
 const saveBtn = document.getElementById('save-records-btn');
 
-let records = []; // {id, startHour, startMin, startSec, endHour, endMin, endSec, seconds}
+let records = [];
 
 function getTodayKey() {
   const now = new Date();
@@ -24,7 +24,30 @@ function formatSeconds(totalSeconds) {
   return `${h}:${m}:${s}`;
 }
 
-// 기록 렌더링
+function updateRecordSeconds(idx) {
+  const rec = records[idx];
+  const sh = Number(document.getElementById(`start-hour-${idx}`).value);
+  const sm = Number(document.getElementById(`start-min-${idx}`).value);
+  const ss = Number(document.getElementById(`start-sec-${idx}`).value);
+  const eh = Number(document.getElementById(`end-hour-${idx}`).value);
+  const em = Number(document.getElementById(`end-min-${idx}`).value);
+  const es = Number(document.getElementById(`end-sec-${idx}`).value);
+
+  const startTotal = sh * 3600 + sm * 60 + ss;
+  const endTotal = eh * 3600 + em * 60 + es;
+  const diff = Math.max(0, endTotal - startTotal);
+
+  rec.startHour = sh;
+  rec.startMin = sm;
+  rec.startSec = ss;
+  rec.endHour = eh;
+  rec.endMin = em;
+  rec.endSec = es;
+  rec.seconds = diff;
+
+  document.getElementById(`seconds-${idx}`).textContent = formatSeconds(diff);
+}
+
 function renderRecords() {
   recordListEl.innerHTML = '';
 
@@ -32,8 +55,7 @@ function renderRecords() {
     const emptyMsg = document.createElement('p');
     emptyMsg.textContent = '오늘 기록이 없습니다.';
     emptyMsg.style.textAlign = 'center';
-    emptyMsg.style.color = '#666';
-    emptyMsg.style.marginTop = '20px';
+    emptyMsg.style.color = '#888';
     recordListEl.appendChild(emptyMsg);
     return;
   }
@@ -58,7 +80,6 @@ function renderRecords() {
 
     recordListEl.appendChild(li);
 
-    // 이벤트 등록
     ['hour', 'min', 'sec'].forEach(unit => {
       document.getElementById(`start-${unit}-${idx}`).addEventListener('change', () => updateRecordSeconds(idx));
       document.getElementById(`end-${unit}-${idx}`).addEventListener('change', () => updateRecordSeconds(idx));
@@ -66,52 +87,22 @@ function renderRecords() {
   });
 }
 
-function updateRecordSeconds(idx) {
-  const sh = Number(document.getElementById(`start-hour-${idx}`).value);
-  const sm = Number(document.getElementById(`start-min-${idx}`).value);
-  const ss = Number(document.getElementById(`start-sec-${idx}`).value);
-  const eh = Number(document.getElementById(`end-hour-${idx}`).value);
-  const em = Number(document.getElementById(`end-min-${idx}`).value);
-  const es = Number(document.getElementById(`end-sec-${idx}`).value);
-
-  const startTotal = sh * 3600 + sm * 60 + ss;
-  const endTotal = eh * 3600 + em * 60 + es;
-  const diff = Math.max(0, endTotal - startTotal);
-
-  records[idx] = {
-    ...records[idx],
-    startHour: sh, startMin: sm, startSec: ss,
-    endHour: eh, endMin: em, endSec: es,
-    seconds: diff
-  };
-
-  document.getElementById(`seconds-${idx}`).textContent = formatSeconds(diff);
-}
-
 async function loadRecords(uid) {
   const colRef = collection(db, 'users', uid, 'studyLogs');
   const snapshot = await getDocs(colRef);
-
   records = [];
 
   snapshot.forEach(docSnap => {
-    const d = docSnap.data();
-
-    // startTime, endTime 없으면 무시
-    if (!d.startTime || !d.endTime) return;
-
-    const startArr = d.startTime.split(':').map(Number);
-    const endArr = d.endTime.split(':').map(Number);
-    const seconds = d.seconds ?? 0;
+    const data = docSnap.data();
+    if (!data.startTime || !data.endTime) return;
+    const startArr = data.startTime.split(':').map(Number);
+    const endArr = data.endTime.split(':').map(Number);
+    const seconds = data.seconds || 0;
 
     records.push({
       id: docSnap.id,
-      startHour: startArr[0],
-      startMin: startArr[1],
-      startSec: startArr[2],
-      endHour: endArr[0],
-      endMin: endArr[1],
-      endSec: endArr[2],
+      startHour: startArr[0], startMin: startArr[1], startSec: startArr[2],
+      endHour: endArr[0], endMin: endArr[1], endSec: endArr[2],
       seconds
     });
   });
@@ -120,9 +111,8 @@ async function loadRecords(uid) {
 }
 
 async function saveRecords(uid) {
-  await Promise.all(records.map(async rec => {
+  const updates = records.map(async rec => {
     const docRef = doc(db, 'users', uid, 'studyLogs', rec.id);
-
     const start = `${String(rec.startHour).padStart(2, '0')}:${String(rec.startMin).padStart(2, '0')}:${String(rec.startSec).padStart(2, '0')}`;
     const end = `${String(rec.endHour).padStart(2, '0')}:${String(rec.endMin).padStart(2, '0')}:${String(rec.endSec).padStart(2, '0')}`;
 
@@ -131,22 +121,20 @@ async function saveRecords(uid) {
       endTime: end,
       seconds: rec.seconds
     }, { merge: true });
-  }));
+  });
+
+  await Promise.all(updates);
 }
 
 onAuthStateChanged(auth, async user => {
-  if (!user) {
-    window.location.href = '/BBUDDIstudy/index.html';
-    return;
-  }
+  if (!user) return location.href = '/BBUDDIstudy/index.html';
   await loadRecords(user.uid);
 });
 
 saveBtn.addEventListener('click', async () => {
   const user = auth.currentUser;
-  if (!user) return alert('로그인 상태가 아닙니다.');
-
+  if (!user) return alert('로그인이 필요합니다.');
   await saveRecords(user.uid);
   alert('기록이 저장되었습니다!');
-  window.location.href = '/BBUDDIstudy/home.html';
+  location.href = '/BBUDDIstudy/home.html';
 });
