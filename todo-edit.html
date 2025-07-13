@@ -2,23 +2,25 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>오늘 할 일 수정</title>
-  <link rel="stylesheet" href="/BBUDDIstudy/css/todo-edit.css" />
+  <link rel="stylesheet" href="/BBUDDIstudy/styles/todo-edit.css" />
 </head>
 <body>
   <div class="container">
-    <div class="header">
-      <h2> TODO LIST <br/> </h2>
-      <div class="btn-group">
+    <header>
+      <h2>TODO LIST <br/> </h2>
+      <div class="edit-controls">
         <button id="add-todo-btn">할 일 추가</button>
         <button id="delete-todo-btn">할 일 삭제</button>
       </div>
-    </div>
+    </header>
 
-    <ul id="todo-edit-list"></ul>
+    <ul id="todo-edit-list" class="todo-list">
+      <!-- 할 일 항목들이 여기에 렌더링됨 -->
+    </ul>
 
-    <div class="save-area">
+    <div class="footer">
       <button id="save-todo-btn">저장</button>
     </div>
   </div>
