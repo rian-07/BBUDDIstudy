@@ -69,7 +69,7 @@ body {
 }
 
 .todo-list li {
-  background-color: rgba(255,255,255,0.3);
+  background-color: rgb(226,251,207);
   padding: 10px 14px;
   margin-bottom: 8px;
   border-radius: 8px;
@@ -89,7 +89,7 @@ body {
   font-size: 1.1rem;
   border: none;
   border-radius: 10px;
-  background-color: #5c80ff;
+  background-color: #e0fadb;
   cursor: pointer;
   color: white;
   transition: background-color 0.3s ease;
