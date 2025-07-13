@@ -3,33 +3,48 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>오늘 할 일 수정 - BBUDDIstudy</title>
+  <title>오늘 할 일 - BBUDDIstudy</title>
   <link rel="stylesheet" href="/BBUDDIstudy/css/todo-edit.css" />
   <style>
     body {
       font-family: sans-serif;
       padding: 2rem;
       background-color: #f9f9f9;
-      position: relative;
       min-height: 100vh;
       box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
     }
 
-    h2 {
-      text-align: center;
-      margin-bottom: 2rem;
+    .container {
+      max-width: 600px;
+      width: 100%;
+      margin: 0 auto;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
     }
 
-    .top-right-buttons {
-      position: absolute;
-      top: 2rem;
-      right: 2rem;
+    .header-with-buttons {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+
+    .header-with-buttons h2 {
+      margin: 0;
+      font-weight: bold;
+      font-size: 1.8rem;
+    }
+
+    .btn-group-vertical {
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
     }
 
-    .top-right-buttons button {
+    .btn-group-vertical button {
       padding: 0.5rem 1rem;
       font-size: 0.95rem;
       border: none;
@@ -37,6 +52,7 @@
       color: white;
       cursor: pointer;
       font-weight: bold;
+      width: 110px;
     }
 
     #add-todo-btn {
@@ -50,7 +66,10 @@
     ul#todo-edit-list {
       list-style: none;
       padding: 0;
-      margin-bottom: 4rem;
+      margin: 0 0 2rem 0;
+      flex-grow: 1;
+      overflow-y: auto;
+      max-height: 400px;
     }
 
     ul#todo-edit-list li {
@@ -77,10 +96,6 @@
     }
 
     #save-todo-btn {
-      position: fixed;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
       padding: 0.7rem 1.5rem;
       font-size: 1rem;
       background-color: #007BFF;
@@ -89,23 +104,26 @@
       border-radius: 8px;
       cursor: pointer;
       font-weight: bold;
+      align-self: center;
+      margin-bottom: 1rem;
+      width: 120px;
     }
   </style>
 </head>
 <body>
-  <h2>오늘 할 일 수정</h2>
+  <div class="container">
+    <div class="header-with-buttons">
+      <h2>오늘 할 일 수정</h2>
+      <div class="btn-group-vertical">
+        <button id="add-todo-btn">할 일 추가</button>
+        <button id="delete-todo-btn">할 일 삭제</button>
+      </div>
+    </div>
 
-  <!-- 오른쪽 상단 버튼 -->
-  <div class="top-right-buttons">
-    <button id="add-todo-btn">할 일 추가</button>
-    <button id="delete-todo-btn">할 일 삭제</button>
+    <ul id="todo-edit-list"></ul>
+
+    <button id="save-todo-btn">저장</button>
   </div>
-
-  <!-- 할 일 목록 -->
-  <ul id="todo-edit-list"></ul>
-
-  <!-- 하단 저장 버튼 -->
-  <button id="save-todo-btn">저장</button>
 
   <script type="module" src="/BBUDDIstudy/js/todo-edit.js"></script>
 </body>
