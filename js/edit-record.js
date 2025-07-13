@@ -6,7 +6,7 @@ const db = getFirestore();
 const recordListEl = document.getElementById('record-list');
 const saveBtn = document.getElementById('save-records-btn');
 
-let records = []; // 여러 기록을 담을 배열
+let records = []; // {id, startHour, startMin, startSec, endHour, endMin, endSec, seconds}
 
 function getTodayKey() {
   const now = new Date();
@@ -43,21 +43,22 @@ function renderRecords() {
     li.className = 'record-item';
 
     li.innerHTML = `
-      <label>시작시간:
+      <label>시작 시간:
         <input type="number" id="start-hour-${idx}" min="0" max="23" value="${rec.startHour}" /> 시
         <input type="number" id="start-min-${idx}" min="0" max="59" value="${rec.startMin}" /> 분
         <input type="number" id="start-sec-${idx}" min="0" max="59" value="${rec.startSec}" /> 초
       </label>
-      <label>종료시간:
+      <label>종료 시간:
         <input type="number" id="end-hour-${idx}" min="0" max="23" value="${rec.endHour}" /> 시
         <input type="number" id="end-min-${idx}" min="0" max="59" value="${rec.endMin}" /> 분
         <input type="number" id="end-sec-${idx}" min="0" max="59" value="${rec.endSec}" /> 초
       </label>
-      <p>총 시간: <span id="sec-${idx}">${formatSeconds(rec.seconds)}</span></p>
+      <p>총 시간: <span id="seconds-${idx}">${formatSeconds(rec.seconds)}</span></p>
     `;
 
     recordListEl.appendChild(li);
 
+    // 이벤트 등록
     ['hour', 'min', 'sec'].forEach(unit => {
       document.getElementById(`start-${unit}-${idx}`).addEventListener('change', () => updateRecordSeconds(idx));
       document.getElementById(`end-${unit}-${idx}`).addEventListener('change', () => updateRecordSeconds(idx));
@@ -84,7 +85,7 @@ function updateRecordSeconds(idx) {
     seconds: diff
   };
 
-  document.getElementById(`sec-${idx}`).textContent = formatSeconds(diff);
+  document.getElementById(`seconds-${idx}`).textContent = formatSeconds(diff);
 }
 
 async function loadRecords(uid) {
@@ -92,24 +93,27 @@ async function loadRecords(uid) {
   const snapshot = await getDocs(colRef);
 
   records = [];
+
   snapshot.forEach(docSnap => {
     const d = docSnap.data();
-    const startArr = d.startTime?.split(':').map(Number);
-    const endArr = d.endTime?.split(':').map(Number);
+
+    // startTime, endTime 없으면 무시
+    if (!d.startTime || !d.endTime) return;
+
+    const startArr = d.startTime.split(':').map(Number);
+    const endArr = d.endTime.split(':').map(Number);
     const seconds = d.seconds ?? 0;
 
-    if (startArr && endArr) {
-      records.push({
-        id: docSnap.id,
-        startHour: startArr[0],
-        startMin: startArr[1],
-        startSec: startArr[2],
-        endHour: endArr[0],
-        endMin: endArr[1],
-        endSec: endArr[2],
-        seconds
-      });
-    }
+    records.push({
+      id: docSnap.id,
+      startHour: startArr[0],
+      startMin: startArr[1],
+      startSec: startArr[2],
+      endHour: endArr[0],
+      endMin: endArr[1],
+      endSec: endArr[2],
+      seconds
+    });
   });
 
   renderRecords();
