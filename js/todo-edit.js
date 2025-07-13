@@ -19,6 +19,7 @@ const saveBtn = document.getElementById('save-todo-btn');
 let deleteMode = false;
 let todos = []; // { id?, text }
 
+// 사용자 로그인 확인 및 데이터 불러오기
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
     window.location.href = '/BBUDDIstudy/index.html';
@@ -28,11 +29,12 @@ onAuthStateChanged(auth, async (user) => {
   renderTodos();
 });
 
-// Firebase에서 할 일 목록 불러오기
+// Firestore에서 할 일 목록 불러오기
 async function loadTodos(uid) {
   todos = [];
   const colRef = collection(db, 'users', uid, 'todos');
   const snapshot = await getDocs(colRef);
+
   snapshot.forEach(docSnap => {
     todos.push({ id: docSnap.id, text: docSnap.data().text });
   });
@@ -44,6 +46,7 @@ function renderTodos() {
 
   todos.forEach((todo, idx) => {
     const li = document.createElement('li');
+    li.className = 'todo-item';
 
     const input = document.createElement('input');
     input.type = 'text';
@@ -56,6 +59,7 @@ function renderTodos() {
     delBtn.className = 'todo-delete-btn';
     delBtn.style.display = deleteMode ? 'inline-block' : 'none';
     delBtn.dataset.idx = idx;
+
     delBtn.addEventListener('click', () => {
       todos.splice(idx, 1);
       renderTodos();
@@ -67,15 +71,13 @@ function renderTodos() {
   });
 }
 
-// 할 일 추가
+// 할 일 추가 버튼
 addBtn.addEventListener('click', () => {
-  // 현재 입력값 저장
   const inputs = todoListEl.querySelectorAll('input.todo-input');
   inputs.forEach((input, idx) => {
     todos[idx].text = input.value;
   });
 
-  // 새 항목 추가
   todos.push({ text: '' });
   renderTodos();
 });
@@ -89,7 +91,6 @@ deleteBtn.addEventListener('click', () => {
 
 // 저장 버튼 클릭 시
 saveBtn.addEventListener('click', async () => {
-  // 입력값 반영
   const inputs = todoListEl.querySelectorAll('input.todo-input');
   inputs.forEach((input, idx) => {
     todos[idx].text = input.value.trim();
@@ -100,15 +101,15 @@ saveBtn.addEventListener('click', async () => {
 
   const colRef = collection(db, 'users', user.uid, 'todos');
 
-  // 기존 삭제
-  const existingDocs = await getDocs(colRef);
+  // 기존 할 일 삭제
+  const oldTodos = await getDocs(colRef);
   const deletePromises = [];
-  existingDocs.forEach(docSnap => {
+  oldTodos.forEach(docSnap => {
     deletePromises.push(deleteDoc(doc(db, 'users', user.uid, 'todos', docSnap.id)));
   });
   await Promise.all(deletePromises);
 
-  // 새로 저장
+  // 새 할 일 저장
   const addPromises = todos
     .filter(todo => todo.text.length > 0)
     .map(todo => addDoc(colRef, { text: todo.text }));
