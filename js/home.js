@@ -75,7 +75,7 @@ onAuthStateChanged(auth, async (user) => {
         if (todoSnap.empty) {
             const emptyMsg = document.createElement('li');
             emptyMsg.textContent = '오늘 할 일이 없습니다.';
-            emptyMsg.style.color = 'white';
+            emptyMsg.style.color = '#effdeb';
             todoListEl.appendChild(emptyMsg);
         } else {
             todoSnap.forEach(doc => {
