@@ -89,12 +89,12 @@ body {
   font-size: 1.1rem;
   border: none;
   border-radius: 10px;
-  background-color: #01df95;
+  background-color: #3d7532;
   cursor: pointer;
   color: white;
   transition: background-color 0.3s ease;
 }
 
 .action-btn:hover {
-  background-color: #63ca58;
+  background-color: #314e2b;
 }
